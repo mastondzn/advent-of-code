@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 
 const main = async () => {
-    const input = await readFile('./src/input.txt', 'utf8');
+    const input = await readFile('./src/1/input.txt', 'utf8');
 
     const mostCalories = input
         .split('\n\n')

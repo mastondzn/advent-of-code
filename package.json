@@ -8,7 +8,7 @@
         "url": "https://github.com/mastondzn"
     },
     "workspaces": [
-        "days/*",
+        "solutions",
         "packages/*"
     ],
     "scripts": {

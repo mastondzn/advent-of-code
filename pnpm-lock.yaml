@@ -16,29 +16,6 @@ importers:
       turbo: 1.6.3
       typescript: 4.9.3
 
-  days/1:
-    specifiers:
-      '@mastondzn/eslint-config-custom': workspace:*
-      '@mastondzn/tsconfig-custom': workspace:*
-      '@types/node': '18'
-      eslint: ^8.28.0
-      eslint-define-config: ^1.12.0
-      ts-node: ^10.9.1
-      ts-node-dev: ^2.0.0
-      tslib: ^2.4.1
-      typescript: ^4.9.3
-    dependencies:
-      tslib: 2.4.1
-    devDependencies:
-      '@mastondzn/eslint-config-custom': link:../../packages/eslint-config-custom
-      '@mastondzn/tsconfig-custom': link:../../packages/tsconfig-custom
-      '@types/node': 18.11.9
-      eslint: 8.28.0
-      eslint-define-config: 1.12.0
-      ts-node: 10.9.1_wup25etrarvlqkprac7h35hj7u
-      ts-node-dev: 2.0.0_wup25etrarvlqkprac7h35hj7u
-      typescript: 4.9.3
-
   packages/eslint-config-custom:
     specifiers:
       '@types/eslint': ^8.4.10
@@ -80,6 +57,29 @@ importers:
 
   packages/tsconfig-custom:
     specifiers: {}
+
+  solutions:
+    specifiers:
+      '@mastondzn/eslint-config-custom': workspace:*
+      '@mastondzn/tsconfig-custom': workspace:*
+      '@types/node': '18'
+      eslint: ^8.28.0
+      eslint-define-config: ^1.12.0
+      ts-node: ^10.9.1
+      ts-node-dev: ^2.0.0
+      tslib: ^2.4.1
+      typescript: ^4.9.3
+    dependencies:
+      tslib: 2.4.1
+    devDependencies:
+      '@mastondzn/eslint-config-custom': link:../packages/eslint-config-custom
+      '@mastondzn/tsconfig-custom': link:../packages/tsconfig-custom
+      '@types/node': 18.11.9
+      eslint: 8.28.0
+      eslint-define-config: 1.12.0
+      ts-node: 10.9.1_wup25etrarvlqkprac7h35hj7u
+      ts-node-dev: 2.0.0_wup25etrarvlqkprac7h35hj7u
+      typescript: 4.9.3
 
 packages:
 
