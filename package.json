@@ -1,0 +1,33 @@
+{
+    "name": "@mastondzn/advent2022",
+    "version": "0.0.0",
+    "private": true,
+    "license": "GPL-3.0-or-later",
+    "author": {
+        "name": "mastondzn",
+        "url": "https://github.com/mastondzn"
+    },
+    "workspaces": [
+        "days/*",
+        "packages/*"
+    ],
+    "scripts": {
+        "clean": "rimraf node_modules .turbo .vercel dist",
+        "format": "prettier --write \"**/*.{ts,tsx,md,json,js,mjs,cjs,yml,yaml}\"",
+        "format:check": "prettier -c \"**/*.{ts,tsx,md,json,js,mjs,cjs,yml,yaml}\"",
+        "lint": "turbo run lint",
+        "lint:fix": "turbo run lint -- --fix",
+        "typecheck": "turbo run typecheck"
+    },
+    "devDependencies": {
+        "@types/node": "18",
+        "prettier": "latest",
+        "rimraf": "^3.0.2",
+        "turbo": "^1.6.3",
+        "typescript": "^4.9.3"
+    },
+    "packageManager": "pnpm@7.13.3",
+    "engines": {
+        "node": ">=18"
+    }
+}
