@@ -16,7 +16,7 @@ const main = async () => {
     const hasDay = !!(await readFile(file, 'utf8').catch(() => false));
     if (!hasDay) {
         console.log(
-            `Files for year ${year}, day ${day} does not exist! You can scaffold it with ${chalk.bgBlue(
+            `Files for year ${year}, day ${day} do not exist! You can scaffold them with ${chalk.bgBlue(
                 `\`pnpm scaffold ${year} ${day}\``
             )}`
         );
