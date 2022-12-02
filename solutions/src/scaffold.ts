@@ -28,7 +28,7 @@ const main = async () => {
     void main();
     `
         .replace(/^ {4}/gm, '')
-        .trim();
+        .trimStart();
 
     await mkdir(`./src/${arg}`, { recursive: true });
 

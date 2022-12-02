@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-    
+
 const main = async () => {
     const input = await readFile('./src/2/input.txt', 'utf8');
 
