@@ -45,19 +45,6 @@ const main = async () => {
         Z: Move.Scissors,
     };
 
-    const calculateRoundScore = (ownMove: Move, roundResult: Result): number => {
-        let score = 0;
-
-        if (roundResult === Result.Win) score += Result.Win;
-        if (roundResult === Result.Draw) score += Result.Draw;
-
-        if (ownMove === Move.Rock) score += Move.Rock;
-        if (ownMove === Move.Paper) score += Move.Paper;
-        if (ownMove === Move.Scissors) score += Move.Scissors;
-
-        return score;
-    };
-
     let partOneScore = 0;
     const rounds = input.split('\n');
     for (const round of rounds) {
@@ -69,7 +56,7 @@ const main = async () => {
 
         const roundResult = roundEvaluationMap[ownMove][adversaryMove];
 
-        partOneScore += calculateRoundScore(ownMove, roundResult);
+        partOneScore += ownMove + roundResult;
     }
 
     console.log('Part one score:', partOneScore);
@@ -95,7 +82,7 @@ const main = async () => {
         const desiredResult = desiredResultMap[ownRawMove];
         const ownMove = determineOwnMove(adversaryMove, desiredResult);
 
-        partTwoScore += calculateRoundScore(ownMove, desiredResult);
+        partTwoScore += ownMove + desiredResult;
     }
     console.log('Part two score:', partTwoScore);
 };
