@@ -1,22 +1,22 @@
 import { readFile } from 'node:fs/promises';
 
+import { validateArgs } from './utils';
+
 const main = async () => {
-    const arg = process.argv[2];
-    if (!arg) {
-        console.log('Please provide a day (for example pnpm dev 1 or pnpm start 1)');
+    const year = process.argv[2];
+    const day = process.argv[3];
+
+    if (!validateArgs(year, day)) {
         return;
     }
-    if (!/^[1-9]+$/.test(arg)) {
-        console.log('Please provide a valid day (for example pnpm dev 1 or pnpm start 1)');
-        return;
-    }
-    const file = `./src/${arg}/index.ts`;
+
+    const file = `./src/${year}/${day}/index.ts`;
     const hasDay = !!(await readFile(file, 'utf8').catch(() => false));
     if (!hasDay) {
-        console.log(`File for day ${arg} does not exist!`);
+        console.log(`File for year ${year}, day ${day} does not exist!`);
         return;
     }
-    await import(`./${arg}`);
+    await import(`./${year}/${day}`);
 };
 
 void main();

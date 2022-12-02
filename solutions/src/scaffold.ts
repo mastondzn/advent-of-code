@@ -1,18 +1,22 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 
+import chalk from 'chalk';
+
+import { validateArgs } from './utils';
+
 const main = async () => {
-    const arg = process.argv[2];
-    if (!arg) {
-        console.log('Please provide a day (for example pnpm scaffold 7)');
+    const year = process.argv[2];
+    const day = process.argv[3];
+
+    if (!validateArgs(year, day)) {
         return;
     }
-    if (!/^[1-9]+$/.test(arg)) {
-        console.log('Please provide a valid day (for example pnpm scaffold 7)');
-        return;
-    }
-    const existingFile = !!(await readFile(`./src/${arg}/index.ts`, 'utf8').catch(() => false));
+
+    const existingFile = !!(await readFile(`./src/${year}/${day}/index.ts`, 'utf8').catch(
+        () => false
+    ));
     if (existingFile) {
-        console.log(`File for day ${arg} already exists!`);
+        console.log(`Files for year ${year}, year ${year} already exist!`);
         return;
     }
 
@@ -20,10 +24,11 @@ const main = async () => {
     import { readFile } from 'node:fs/promises';
         
     const main = async () => {
-        const input = await readFile('./src/${arg}/input.txt', 'utf8');
+        const input = await readFile('./src/${year}/${day}/input.txt', 'utf8');
 
         // Your code here, remember to add your input file to input.txt.
-        // https://adventofcode.com/2022/day/${arg}
+        // https://adventofcode.com/${year}/day/${day}
+        // https://adventofcode.com/${year}/day/${day}/input
     };
 
     void main();
@@ -31,17 +36,27 @@ const main = async () => {
         .replace(/^ {4}/gm, '')
         .trimStart();
 
-    await mkdir(`./src/${arg}`, { recursive: true });
+    await mkdir(`./src/${year}/${day}`, { recursive: true });
 
-    const inputFile = `./src/${arg}/input.txt`;
+    const codeFile = `./src/${year}/${day}/index.ts`;
+    const inputFile = `./src/${year}/${day}/input.txt`;
+
     await Promise.all([
-        writeFile(`./src/${arg}/index.ts`, txt, { encoding: 'utf8' }),
+        writeFile(codeFile, txt, { encoding: 'utf8' }),
         writeFile(inputFile, '', { encoding: 'utf8' }),
     ]);
 
-    console.log(
-        `Done! Scaffolded files for day ${arg}. Paste your puzzle input into ${inputFile}. Then you can start working on your solution! (pnpm dev ${arg})`
-    );
+    const lines = [
+        `Done! Scaffolded files for year ${year}, day ${day}.`,
+        `Paste your puzzle input into ${chalk.yellow(inputFile)}`,
+        `Then you can start editing ${chalk.yellow(codeFile)} on your solution!`,
+        chalk.blue(`https://adventofcode.com/${year}/day/${day}`),
+        chalk.blue(`https://adventofcode.com/${year}/day/${day}/input`),
+        `pnpm dev ${year} ${day}`,
+        `Happy advent of code!`,
+    ];
+
+    console.log(lines.join('\n'));
 };
 
 void main();

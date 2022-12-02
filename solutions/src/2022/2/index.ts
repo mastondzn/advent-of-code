@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 
 const main = async () => {
-    const input = await readFile('./src/2/input.txt', 'utf8');
+    const input = await readFile('./src/2022/2/input.txt', 'utf8');
 
     enum Move {
         Rock = 1,
