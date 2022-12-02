@@ -6,7 +6,7 @@ const main = async () => {
         console.log('Please provide a day (for example pnpm dev 1 or pnpm start 1)');
         return;
     }
-    if (!/^[1-9]$/.test(arg)) {
+    if (!/^[1-9]+$/.test(arg)) {
         console.log('Please provide a valid day (for example pnpm dev 1 or pnpm start 1)');
         return;
     }
