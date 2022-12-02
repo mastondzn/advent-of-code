@@ -13,7 +13,9 @@ const main = async () => {
     const file = `./src/${year}/${day}/index.ts`;
     const hasDay = !!(await readFile(file, 'utf8').catch(() => false));
     if (!hasDay) {
-        console.log(`File for year ${year}, day ${day} does not exist!`);
+        console.log(
+            `File for year ${year}, day ${day} does not exist! You can scaffold it with \`pnpm scaffold ${year} ${day}\``
+        );
         return;
     }
     await import(`./${year}/${day}`);
