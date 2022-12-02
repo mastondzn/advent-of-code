@@ -36,21 +36,13 @@ const main = async () => {
     type AdversaryRawMove = 'A' | 'B' | 'C';
     type OwnRawMove = 'X' | 'Y' | 'Z';
 
-    const moveDecrypt = (input: AdversaryRawMove | OwnRawMove): Move => {
-        switch (input) {
-            case 'A':
-            case 'X': {
-                return Move.Rock;
-            }
-            case 'B':
-            case 'Y': {
-                return Move.Paper;
-            }
-            case 'C':
-            case 'Z': {
-                return Move.Scissors;
-            }
-        }
+    const moveDecryptMap: Record<AdversaryRawMove | OwnRawMove, Move> = {
+        A: Move.Rock,
+        B: Move.Paper,
+        C: Move.Scissors,
+        X: Move.Rock,
+        Y: Move.Paper,
+        Z: Move.Scissors,
     };
 
     const calculateRoundScore = (ownMove: Move, roundResult: Result): number => {
@@ -70,7 +62,10 @@ const main = async () => {
     const rounds = input.split('\n');
     for (const round of rounds) {
         const [adversaryRawMove, ownRawMove] = round.split(' ') as [AdversaryRawMove, OwnRawMove];
-        const [adversaryMove, ownMove] = [moveDecrypt(adversaryRawMove), moveDecrypt(ownRawMove)];
+        const [adversaryMove, ownMove] = [
+            moveDecryptMap[adversaryRawMove],
+            moveDecryptMap[ownRawMove],
+        ];
 
         const roundResult = roundEvaluationMap[ownMove][adversaryMove];
 
@@ -96,7 +91,7 @@ const main = async () => {
     let partTwoScore = 0;
     for (const round of rounds) {
         const [adversaryRawMove, ownRawMove] = round.split(' ') as [AdversaryRawMove, OwnRawMove];
-        const adversaryMove = moveDecrypt(adversaryRawMove);
+        const adversaryMove = moveDecryptMap[adversaryRawMove];
         const desiredResult = desiredResultMap[ownRawMove];
         const ownMove = determineOwnMove(adversaryMove, desiredResult);
 
