@@ -79,18 +79,10 @@ const main = async () => {
 
     console.log('Part one score:', partOneScore);
 
-    const getDesiredResult = (input: OwnRawMove): Result => {
-        switch (input) {
-            case 'X': {
-                return Result.Lose;
-            }
-            case 'Y': {
-                return Result.Draw;
-            }
-            case 'Z': {
-                return Result.Win;
-            }
-        }
+    const desiredResultMap: Record<OwnRawMove, Result> = {
+        X: Result.Lose,
+        Y: Result.Draw,
+        Z: Result.Win,
     };
 
     const determineOwnMove = (adversaryMove: Move, desiredResult: Result): Move => {
@@ -105,7 +97,7 @@ const main = async () => {
     for (const round of rounds) {
         const [adversaryRawMove, ownRawMove] = round.split(' ') as [AdversaryRawMove, OwnRawMove];
         const adversaryMove = moveDecrypt(adversaryRawMove);
-        const desiredResult = getDesiredResult(ownRawMove);
+        const desiredResult = desiredResultMap[ownRawMove];
         const ownMove = determineOwnMove(adversaryMove, desiredResult);
 
         partTwoScore += calculateRoundScore(ownMove, desiredResult);
