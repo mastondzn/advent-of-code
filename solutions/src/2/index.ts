@@ -3,144 +3,114 @@ import { readFile } from 'node:fs/promises';
 const main = async () => {
     const input = await readFile('./src/2/input.txt', 'utf8');
 
-    // scuffed lol
+    enum Move {
+        Rock = 1,
+        Paper = 2,
+        Scissors = 3,
+    }
 
-    const partOne = {
-        wonRounds: 0,
-        tiedRounds: 0,
-        playedWithRock: 0,
-        playedWithPaper: 0,
-        playedWithScissors: 0,
+    enum Result {
+        Win = 6,
+        Draw = 3,
+        Lose = 0,
+    }
+
+    const roundEvaluationMap: Record<Move, Record<Move, Result>> = {
+        [Move.Rock]: {
+            [Move.Rock]: Result.Draw,
+            [Move.Paper]: Result.Lose,
+            [Move.Scissors]: Result.Win,
+        },
+        [Move.Paper]: {
+            [Move.Rock]: Result.Win,
+            [Move.Paper]: Result.Draw,
+            [Move.Scissors]: Result.Lose,
+        },
+        [Move.Scissors]: {
+            [Move.Rock]: Result.Lose,
+            [Move.Paper]: Result.Win,
+            [Move.Scissors]: Result.Draw,
+        },
     };
 
-    type PlayerOneRawMove = 'A' | 'B' | 'C';
-    type PlayerTwoRawMove = 'X' | 'Y' | 'Z';
-    type PlayerMove = 'rock' | 'paper' | 'scissors';
+    type AdversaryRawMove = 'A' | 'B' | 'C';
+    type OwnRawMove = 'X' | 'Y' | 'Z';
 
-    const getPlayerOneMove = (input: PlayerOneRawMove): PlayerMove => {
-        if (input === 'A') return 'rock';
-        if (input === 'B') return 'paper';
-        if (input === 'C') return 'scissors';
-        throw new Error('Unreachable');
-    };
-
-    const getPlayerTwoMoveInPartOne = (input: PlayerTwoRawMove): PlayerMove => {
-        if (input === 'X') return 'rock';
-        if (input === 'Y') return 'paper';
-        if (input === 'Z') return 'scissors';
-        throw new Error('Unreachable');
-    };
-
-    const isWinForPlayerTwo = (playerOneMove: PlayerMove, playerTwoMove: PlayerMove): boolean => {
-        if (playerTwoMove === 'rock' && playerOneMove === 'scissors') {
-            return true;
-        } else if (playerTwoMove === 'paper' && playerOneMove === 'rock') {
-            return true;
-        } else if (playerTwoMove === 'scissors' && playerOneMove === 'paper') {
-            return true;
+    const moveDecrypt = (input: AdversaryRawMove | OwnRawMove): Move => {
+        switch (input) {
+            case 'A':
+            case 'X': {
+                return Move.Rock;
+            }
+            case 'B':
+            case 'Y': {
+                return Move.Paper;
+            }
+            case 'C':
+            case 'Z': {
+                return Move.Scissors;
+            }
         }
-        return false;
     };
 
-    const isTie = (playerOneMove: PlayerMove, playerTwoMove: PlayerMove): boolean => {
-        return playerOneMove === playerTwoMove;
+    const calculateRoundScore = (ownMove: Move, roundResult: Result): number => {
+        let score = 0;
+
+        if (roundResult === Result.Win) score += Result.Win;
+        if (roundResult === Result.Draw) score += Result.Draw;
+
+        if (ownMove === Move.Rock) score += Move.Rock;
+        if (ownMove === Move.Paper) score += Move.Paper;
+        if (ownMove === Move.Scissors) score += Move.Scissors;
+
+        return score;
     };
 
+    let partOneScore = 0;
     const rounds = input.split('\n');
     for (const round of rounds) {
-        const [playerOne, playerTwo] = round.split(' ') as [PlayerOneRawMove, PlayerTwoRawMove];
-        const [playerOneAction, playerTwoAction] = [
-            getPlayerOneMove(playerOne),
-            getPlayerTwoMoveInPartOne(playerTwo),
-        ];
+        const [adversaryRawMove, ownRawMove] = round.split(' ') as [AdversaryRawMove, OwnRawMove];
+        const [adversaryMove, ownMove] = [moveDecrypt(adversaryRawMove), moveDecrypt(ownRawMove)];
 
-        if (isWinForPlayerTwo(playerOneAction, playerTwoAction)) partOne.wonRounds++;
-        if (isTie(playerOneAction, playerTwoAction)) partOne.tiedRounds++;
+        const roundResult = roundEvaluationMap[ownMove][adversaryMove];
 
-        if (playerTwoAction === 'rock') partOne.playedWithRock++;
-        if (playerTwoAction === 'paper') partOne.playedWithPaper++;
-        if (playerTwoAction === 'scissors') partOne.playedWithScissors++;
+        partOneScore += calculateRoundScore(ownMove, roundResult);
     }
 
-    const partOneScore =
-        partOne.wonRounds * 6 +
-        partOne.tiedRounds * 3 +
-        partOne.playedWithRock * 1 +
-        partOne.playedWithPaper * 2 +
-        partOne.playedWithScissors * 3;
+    console.log('Part one score:', partOneScore);
 
-    console.log('Part one:');
-    console.log({ ...partOne, score: partOneScore });
-
-    const partTwo = {
-        wonRounds: 0,
-        tiedRounds: 0,
-        playedWithRock: 0,
-        playedWithPaper: 0,
-        playedWithScissors: 0,
-    };
-
-    type DesiredOutcome = 'win' | 'lose' | 'tie';
-
-    const getDesiredOutcome = (input: PlayerTwoRawMove): DesiredOutcome => {
-        if (input === 'X') return 'lose';
-        if (input === 'Y') return 'tie';
-        if (input === 'Z') return 'win';
-        throw new Error('Unreachable');
-    };
-
-    const getPlayerTwoMoveInPartTwo = (
-        playerOneMove: PlayerMove,
-        desiredOutcome: DesiredOutcome
-    ): PlayerMove => {
-        switch (desiredOutcome) {
-            case 'win': {
-                if (playerOneMove === 'rock') return 'paper';
-                if (playerOneMove === 'paper') return 'scissors';
-                if (playerOneMove === 'scissors') return 'rock';
-
-                break;
+    const getDesiredResult = (input: OwnRawMove): Result => {
+        switch (input) {
+            case 'X': {
+                return Result.Lose;
             }
-            case 'lose': {
-                if (playerOneMove === 'rock') return 'scissors';
-                if (playerOneMove === 'paper') return 'rock';
-                if (playerOneMove === 'scissors') return 'paper';
-
-                break;
+            case 'Y': {
+                return Result.Draw;
             }
-            case 'tie': {
-                return playerOneMove;
+            case 'Z': {
+                return Result.Win;
             }
         }
-        throw new Error('Unreachable');
     };
 
+    const determineOwnMove = (adversaryMove: Move, desiredResult: Result): Move => {
+        for (const ownMove of Object.values(Move)) {
+            if (typeof ownMove === 'string') continue;
+            if (roundEvaluationMap[ownMove][adversaryMove] === desiredResult) return ownMove;
+        }
+        throw new Error('No move found');
+    };
+
+    let partTwoScore = 0;
     for (const round of rounds) {
-        const [playerOne, playerTwo] = round.split(' ') as [PlayerOneRawMove, PlayerTwoRawMove];
-        const [playerOneAction, desiredOutcome] = [
-            getPlayerOneMove(playerOne),
-            getDesiredOutcome(playerTwo),
-        ];
+        const [adversaryRawMove, ownRawMove] = round.split(' ') as [AdversaryRawMove, OwnRawMove];
+        const adversaryMove = moveDecrypt(adversaryRawMove);
+        const desiredResult = getDesiredResult(ownRawMove);
+        const ownMove = determineOwnMove(adversaryMove, desiredResult);
 
-        const playerTwoAction = getPlayerTwoMoveInPartTwo(playerOneAction, desiredOutcome);
-
-        if (desiredOutcome === 'win') partTwo.wonRounds++;
-        if (desiredOutcome === 'tie') partTwo.tiedRounds++;
-
-        if (playerTwoAction === 'rock') partTwo.playedWithRock++;
-        if (playerTwoAction === 'paper') partTwo.playedWithPaper++;
-        if (playerTwoAction === 'scissors') partTwo.playedWithScissors++;
+        partTwoScore += calculateRoundScore(ownMove, desiredResult);
     }
-
-    const partTwoScore =
-        partTwo.wonRounds * 6 +
-        partTwo.tiedRounds * 3 +
-        partTwo.playedWithRock * 1 +
-        partTwo.playedWithPaper * 2 +
-        partTwo.playedWithScissors * 3;
-
-    console.log('Part two:');
-    console.log({ ...partTwo, score: partTwoScore });
+    console.log('Part two score:', partTwoScore);
 };
 
 void main();
