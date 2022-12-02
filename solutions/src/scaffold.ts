@@ -16,7 +16,7 @@ const main = async () => {
         () => false
     ));
     if (existingFile) {
-        console.log(`Files for year ${year}, year ${year} already exist!`);
+        console.log(`Files for year ${year}, day ${day} already exist!`);
         return;
     }
 
@@ -49,11 +49,14 @@ const main = async () => {
     const lines = [
         `Done! Scaffolded files for year ${year}, day ${day}.`,
         `Paste your puzzle input into ${chalk.yellow(inputFile)}`,
-        `Then you can start editing ${chalk.yellow(codeFile)} on your solution!`,
+        `Then you can start editing ${chalk.yellow(codeFile)}!`,
+        `Run ${chalk.bgBlue(
+            `\`pnpm dev ${year} ${day}\``
+        )} to run your solution and watch for changes.`,
+        `Happy advent of code!`,
+        ``,
         chalk.blue(`https://adventofcode.com/${year}/day/${day}`),
         chalk.blue(`https://adventofcode.com/${year}/day/${day}/input`),
-        `pnpm dev ${year} ${day}`,
-        `Happy advent of code!`,
     ];
 
     console.log(lines.join('\n'));
