@@ -1,5 +1,7 @@
 import { readFile } from 'node:fs/promises';
 
+import chalk from 'chalk';
+
 import { validateArgs } from './utils';
 
 const main = async () => {
@@ -14,7 +16,9 @@ const main = async () => {
     const hasDay = !!(await readFile(file, 'utf8').catch(() => false));
     if (!hasDay) {
         console.log(
-            `File for year ${year}, day ${day} does not exist! You can scaffold it with \`pnpm scaffold ${year} ${day}\``
+            `Files for year ${year}, day ${day} does not exist! You can scaffold it with ${chalk.bgBlue(
+                `\`pnpm scaffold ${year} ${day}\``
+            )}`
         );
         return;
     }
