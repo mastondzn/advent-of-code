@@ -23,6 +23,7 @@ const main = async () => {
         const input = await readFile('./src/${arg}/input.txt', 'utf8');
 
         // Your code here, remember to add your input file to input.txt.
+        // https://adventofcode.com/2022/day/${arg}
     };
 
     void main();
