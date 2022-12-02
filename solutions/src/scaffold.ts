@@ -33,13 +33,14 @@ const main = async () => {
 
     await mkdir(`./src/${arg}`, { recursive: true });
 
+    const inputFile = `./src/${arg}/input.txt`;
     await Promise.all([
         writeFile(`./src/${arg}/index.ts`, txt, { encoding: 'utf8' }),
-        writeFile(`./src/${arg}/input.txt`, '', { encoding: 'utf8' }),
+        writeFile(inputFile, '', { encoding: 'utf8' }),
     ]);
 
     console.log(
-        `Done! Scaffolded files for day ${arg}. You can now start working on your solution. (pnpm dev ${arg})`
+        `Done! Scaffolded files for day ${arg}. Paste your puzzle input into ${inputFile}. Then you can start working on your solution! (pnpm dev ${arg})`
     );
 };
 
