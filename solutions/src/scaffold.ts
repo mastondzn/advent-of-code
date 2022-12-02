@@ -38,7 +38,9 @@ const main = async () => {
         writeFile(`./src/${arg}/input.txt`, '', { encoding: 'utf8' }),
     ]);
 
-    console.log(`Done! You can now start working on your solution. (pnpm dev ${arg})`);
+    console.log(
+        `Done! Scaffolded files for day ${arg}. You can now start working on your solution. (pnpm dev ${arg})`
+    );
 };
 
 void main();
