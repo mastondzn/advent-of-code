@@ -20,7 +20,8 @@ const main = async () => {
     const mostCalories = elves.at(-1);
     const topThreeMostCaloriesTotal = elves.slice(-3).reduce((a, b) => a + b, 0);
 
-    console.log({ mostCalories, topThreeMostCaloriesTotal });
+    console.log('Elf with most calories:', mostCalories);
+    console.log('Total of top three elves with most calories:', topThreeMostCaloriesTotal);
 };
 
 void main();
