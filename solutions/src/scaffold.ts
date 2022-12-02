@@ -23,12 +23,12 @@ const main = async () => {
     const txt = `
     import { readFile } from 'node:fs/promises';
         
+    // https://adventofcode.com/${year}/day/${day}
+    // https://adventofcode.com/${year}/day/${day}/input
     const main = async () => {
         const input = await readFile('./src/${year}/${day}/input.txt', 'utf8');
 
-        // Your code here, remember to add your input file to input.txt.
-        // https://adventofcode.com/${year}/day/${day}
-        // https://adventofcode.com/${year}/day/${day}/input
+        // Solve the puzzle here! Don't forget to add your input file to input.txt.
     };
 
     void main();
