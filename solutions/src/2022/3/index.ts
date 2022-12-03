@@ -62,73 +62,45 @@ const main = async () => {
     }
 
     const rucksacks = input.split('\n');
-    const compartments = rucksacks.map((rucksack) => {
-        const half = rucksack.length / 2;
 
-        if (!Number.isInteger(half)) {
-            console.log(rucksack);
-            throw new Error('Invalid rucksack');
-        }
+    let partOneSum = 0;
+    let partTwoSum = 0;
 
-        const left = rucksack.slice(0, half);
-        const right = rucksack.slice(half);
-        return [left, right] as const;
-    });
-
-    const listOfItemsThatAppearInBothCompartments = compartments.map(([left, right]) => {
-        for (const leftLetter of left) {
-            for (const rightLetter of right) {
-                if (leftLetter === rightLetter) {
-                    return leftLetter;
-                }
+    // eslint-disable-next-line unicorn/no-for-loop
+    for (let i = 0; i < rucksacks.length; i++) {
+        // part one
+        const numberOfItems = rucksacks[i].length;
+        const left = new Set(rucksacks[i].slice(0, numberOfItems / 2));
+        const right = new Set(rucksacks[i].slice(numberOfItems / 2));
+        for (const letter of left) {
+            if (right.has(letter)) {
+                partOneSum += Priorities[letter as keyof typeof Priorities];
             }
         }
-        throw new Error('No item appears in both compartments');
-    });
 
-    // eslint-disable-next-line unicorn/no-array-reduce
-    const sumOfPriorities = listOfItemsThatAppearInBothCompartments.reduce((sum, item) => {
-        const priority = Priorities[item as keyof typeof Priorities];
-        return sum + priority;
-    }, 0);
+        // part two
+        if ((i + 1) % 3 !== 1) continue;
+        const [firstRucksack, secondRucksack, thirdRucksack] = [
+            new Set(rucksacks[i]),
+            new Set(rucksacks[i + 1]),
+            new Set(rucksacks[i + 2]),
+        ] as const;
+
+        for (const letter of firstRucksack) {
+            if (secondRucksack.has(letter) && thirdRucksack.has(letter)) {
+                partTwoSum += Priorities[letter as keyof typeof Priorities];
+            }
+        }
+    }
 
     console.log(
         'The sum of the priorities of the items that appear in both compartments is:',
-        sumOfPriorities
-    );
-
-    type Group = readonly [string, string, string];
-    const groups: Group[] = [];
-
-    for (let i = 0; i < rucksacks.length; i++) {
-        if ((i + 1) % 3 !== 1) continue;
-        const group = [rucksacks[i], rucksacks[i + 1], rucksacks[i + 2]] as const;
-        groups.push(group);
-    }
-
-    const listOfItemsThatAppearInEachRucksackForEveryGroup = groups.map(
-        ([rucksack1, rucksack2, rucksack3]) => {
-            for (const letter of rucksack1) {
-                if (rucksack2.includes(letter) && rucksack3.includes(letter)) {
-                    return letter;
-                }
-            }
-            throw new Error('No item appears in each rucksack for this group.');
-        }
-    );
-
-    // eslint-disable-next-line unicorn/no-array-reduce
-    const sumOfGroupPriorities = listOfItemsThatAppearInEachRucksackForEveryGroup.reduce(
-        (sum, item) => {
-            const priority = Priorities[item as keyof typeof Priorities];
-            return sum + priority;
-        },
-        0
+        partOneSum
     );
 
     console.log(
         'The sum of the priorities of the items that appear in the all of the rucksacks of each groups is:',
-        sumOfGroupPriorities
+        partTwoSum
     );
 };
 
