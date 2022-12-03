@@ -32,7 +32,7 @@ const main = async () => {
         }
 
         // part two
-        if ((i + 1) % 3 !== 1) continue;
+        if (i % 3 !== 0) continue;
         const firstRucksack = new Set(rucksacks[i]);
         const secondRucksack = new Set(rucksacks[i + 1]);
         const thirdRucksack = new Set(rucksacks[i + 2]);
