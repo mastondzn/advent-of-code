@@ -45,45 +45,39 @@ const main = async () => {
         Z: Move.Scissors,
     };
 
-    let partOneScore = 0;
-    const rounds = input.split('\n');
-    for (const round of rounds) {
-        const [adversaryRawMove, ownRawMove] = round.split(' ') as [AdversaryRawMove, OwnRawMove];
-        const [adversaryMove, ownMove] = [
-            moveDecryptMap[adversaryRawMove],
-            moveDecryptMap[ownRawMove],
-        ];
-
-        const roundResult = roundEvaluationMap[ownMove][adversaryMove];
-
-        partOneScore += ownMove + roundResult;
-    }
-
-    console.log('Part one score:', partOneScore);
-
-    const desiredResultMap: Record<OwnRawMove, Result> = {
+    const desiredResultDecryptMap: Record<OwnRawMove, Result> = {
         X: Result.Lose,
         Y: Result.Draw,
         Z: Result.Win,
     };
 
     const determineOwnMove = (adversaryMove: Move, desiredResult: Result): Move => {
-        for (const ownMove of Object.values(Move)) {
-            if (typeof ownMove === 'string') continue;
-            if (roundEvaluationMap[ownMove][adversaryMove] === desiredResult) return ownMove;
+        for (const move of Object.values(Move)) {
+            if (typeof move === 'string') continue;
+            if (roundEvaluationMap[move][adversaryMove] === desiredResult) return move;
         }
         throw new Error('No move found');
     };
 
+    let partOneScore = 0;
     let partTwoScore = 0;
+    const rounds = input.split('\n');
     for (const round of rounds) {
         const [adversaryRawMove, ownRawMove] = round.split(' ') as [AdversaryRawMove, OwnRawMove];
         const adversaryMove = moveDecryptMap[adversaryRawMove];
-        const desiredResult = desiredResultMap[ownRawMove];
-        const ownMove = determineOwnMove(adversaryMove, desiredResult);
 
-        partTwoScore += ownMove + desiredResult;
+        // part one
+        const partOneOwnMove = moveDecryptMap[ownRawMove];
+        const partOneRoundResult = roundEvaluationMap[partOneOwnMove][adversaryMove];
+        partOneScore += partOneOwnMove + partOneRoundResult;
+
+        // part two
+        const desiredResult = desiredResultDecryptMap[ownRawMove];
+        const partTwoOwnMove = determineOwnMove(adversaryMove, desiredResult);
+        partTwoScore += partTwoOwnMove + desiredResult;
     }
+
+    console.log('Part one score:', partOneScore);
     console.log('Part two score:', partTwoScore);
 };
 
