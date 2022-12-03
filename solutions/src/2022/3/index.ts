@@ -23,10 +23,10 @@ const main = async () => {
     for (let i = 0; i < rucksacks.length; i++) {
         // part one
         const numberOfItemsInRucksack = rucksacks[i].length;
-        const left = new Set(rucksacks[i].slice(0, numberOfItemsInRucksack / 2));
-        const right = new Set(rucksacks[i].slice(numberOfItemsInRucksack / 2));
-        for (const letter of left) {
-            if (right.has(letter)) {
+        const leftCompartment = new Set(rucksacks[i].slice(0, numberOfItemsInRucksack / 2));
+        const rightCompartment = new Set(rucksacks[i].slice(numberOfItemsInRucksack / 2));
+        for (const letter of leftCompartment) {
+            if (rightCompartment.has(letter)) {
                 partOneSum += getPriority(letter);
             }
         }
