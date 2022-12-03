@@ -5,61 +5,14 @@ import { readFile } from 'node:fs/promises';
 const main = async () => {
     const input = await readFile('./src/2022/3/input.txt', 'utf8');
 
-    enum Priorities {
-        _,
-        a,
-        b,
-        c,
-        d,
-        e,
-        f,
-        g,
-        h,
-        i,
-        j,
-        k,
-        l,
-        m,
-        n,
-        o,
-        p,
-        q,
-        r,
-        s,
-        t,
-        u,
-        v,
-        w,
-        x,
-        y,
-        z,
-        A,
-        B,
-        C,
-        D,
-        E,
-        F,
-        G,
-        H,
-        I,
-        J,
-        K,
-        L,
-        M,
-        N,
-        O,
-        P,
-        Q,
-        R,
-        S,
-        T,
-        U,
-        V,
-        W,
-        X,
-        Y,
-        Z,
-    }
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const getPriority = (letter: string) => {
+        const priority = `_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.indexOf(letter);
+        if (priority === -1 || letter === '_') {
+            throw new Error(`Unknown letter ${letter}`);
+        }
+        return priority;
+    };
 
     const rucksacks = input.split('\n');
 
@@ -69,26 +22,24 @@ const main = async () => {
     // eslint-disable-next-line unicorn/no-for-loop
     for (let i = 0; i < rucksacks.length; i++) {
         // part one
-        const numberOfItems = rucksacks[i].length;
-        const left = new Set(rucksacks[i].slice(0, numberOfItems / 2));
-        const right = new Set(rucksacks[i].slice(numberOfItems / 2));
+        const numberOfItemsInRucksack = rucksacks[i].length;
+        const left = new Set(rucksacks[i].slice(0, numberOfItemsInRucksack / 2));
+        const right = new Set(rucksacks[i].slice(numberOfItemsInRucksack / 2));
         for (const letter of left) {
             if (right.has(letter)) {
-                partOneSum += Priorities[letter as keyof typeof Priorities];
+                partOneSum += getPriority(letter);
             }
         }
 
         // part two
         if ((i + 1) % 3 !== 1) continue;
-        const [firstRucksack, secondRucksack, thirdRucksack] = [
-            new Set(rucksacks[i]),
-            new Set(rucksacks[i + 1]),
-            new Set(rucksacks[i + 2]),
-        ] as const;
+        const firstRucksack = new Set(rucksacks[i]);
+        const secondRucksack = new Set(rucksacks[i + 1]);
+        const thirdRucksack = new Set(rucksacks[i + 2]);
 
         for (const letter of firstRucksack) {
             if (secondRucksack.has(letter) && thirdRucksack.has(letter)) {
-                partTwoSum += Priorities[letter as keyof typeof Priorities];
+                partTwoSum += getPriority(letter);
             }
         }
     }
