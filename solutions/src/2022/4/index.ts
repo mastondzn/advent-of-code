@@ -19,32 +19,26 @@ const main = async () => {
         ];
     });
 
-    let timesARangeFullyContainsTheOther = 0;
-    let timesARangePartiallyContainsTheOther = 0;
-    for (const pair of pairs) {
-        const [[a, b], [c, d]] = pair;
-
+    let fullyContainedCount = 0;
+    let partiallyContainedCount = 0;
+    for (const [[a, b], [c, d]] of pairs) {
         // part one
-        const firstPairFullyContainsTheSecond = a <= c && b >= d;
-        const secondPairFullyContainsTheFirst = c <= a && d >= b;
-        if (firstPairFullyContainsTheSecond || secondPairFullyContainsTheFirst) {
-            timesARangeFullyContainsTheOther++;
+        const firstRangeFullyContainsSecond = a <= c && b >= d;
+        const secondRangeFullyContainsFirst = c <= a && d >= b;
+        if (firstRangeFullyContainsSecond || secondRangeFullyContainsFirst) {
+            fullyContainedCount++;
         }
 
         // part two
-        const firstPairPartiallyContainsTheSecond = a <= c && b >= c;
-        const secondPairPartiallyContainsTheFirst = c <= a && d >= a;
-        if (firstPairPartiallyContainsTheSecond || secondPairPartiallyContainsTheFirst) {
-            timesARangePartiallyContainsTheOther++;
+        const firstRangePartiallyContainsSecond = a <= c && b >= c;
+        const secondRangePartiallyContainsFirst = c <= a && d >= a;
+        if (firstRangePartiallyContainsSecond || secondRangePartiallyContainsFirst) {
+            partiallyContainedCount++;
         }
     }
 
-    console.log('A range fully contains the other', timesARangeFullyContainsTheOther, 'times');
-    console.log(
-        'A range partially contains the other',
-        timesARangePartiallyContainsTheOther,
-        'times'
-    );
+    console.log('A range fully contains the other', fullyContainedCount, 'times');
+    console.log('A range partially contains the other', partiallyContainedCount, 'times');
 };
 
 void main();
