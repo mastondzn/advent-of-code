@@ -27,7 +27,12 @@ const main = async () => {
     // transpose the matrix to get the stacks, remove undefined values and reverse the order
     const stacks = transpose(rawStackChars).map((e) => e.filter(Boolean).reverse()) as string[][];
 
-    type Move = [number, [number, number]];
+    type Move = {
+        amount: number;
+        from: number;
+        to: number;
+    };
+
     const moves: Move[] = rawMovesInput.split('\n').map((e) => {
         const numbers = e
             .replace(/[A-Za-z]+\s/gm, '')
@@ -43,13 +48,13 @@ const main = async () => {
         const from = numbers[1] - 1;
         const to = numbers[2] - 1;
 
-        return [amount, [from, to]];
+        return { amount, from, to };
     });
 
     // part one
     const partOneStacks = clone(stacks);
     // eslint-disable-next-line prefer-const
-    for (let [amount, [from, to]] of moves) {
+    for (let { amount, from, to } of moves) {
         const givingStack = partOneStacks[from];
         const receivingStack = partOneStacks[to];
         while (amount > 0) {
@@ -62,7 +67,7 @@ const main = async () => {
 
     // part two
     const partTwoStacks = clone(stacks);
-    for (const [amount, [from, to]] of moves) {
+    for (const { amount, from, to } of moves) {
         const givingStack = partTwoStacks[from];
         const receivingStack = partTwoStacks[to];
 
