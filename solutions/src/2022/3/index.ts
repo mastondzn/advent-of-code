@@ -1,10 +1,6 @@
-import { readFile } from 'node:fs/promises';
-
 // https://adventofcode.com/2022/day/3
 // https://adventofcode.com/2022/day/3/input
-const main = async () => {
-    const input = await readFile('./src/2022/3/input.txt', 'utf8');
-
+export const solution = (file: string): void => {
     // eslint-disable-next-line unicorn/consistent-function-scoping
     const getPriority = (letter: string) => {
         const priority = `_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.indexOf(letter);
@@ -14,7 +10,7 @@ const main = async () => {
         return priority;
     };
 
-    const rucksacks = input.split('\n');
+    const rucksacks = file.split('\n');
 
     let partOneSum = 0;
     let partTwoSum = 0;
@@ -54,5 +50,3 @@ const main = async () => {
         partTwoSum
     );
 };
-
-void main();

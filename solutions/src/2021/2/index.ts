@@ -1,8 +1,4 @@
-import { readFile } from 'node:fs/promises';
-
-const main = async () => {
-    const input = await readFile('./src/2021/2/input.txt', 'utf8');
-
+export const solution = (file: string): void => {
     type HorizontalCommand = 'forward';
     type VerticalCommand = 'up' | 'down';
 
@@ -18,7 +14,7 @@ const main = async () => {
     };
 
     const moves = (
-        input.split('\n').map((move) => {
+        file.split('\n').map((move) => {
             return move.split(' ');
         }) as [HorizontalCommand | VerticalCommand, string][]
     ).map((element) => [element[0], Number.parseInt(element[1])] as const);
@@ -49,5 +45,3 @@ const main = async () => {
         stepTwoPosition.horizontal * stepTwoPosition.depth
     );
 };
-
-void main();

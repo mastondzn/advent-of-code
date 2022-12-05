@@ -1,9 +1,5 @@
-import { readFile } from 'node:fs/promises';
-
-const main = async () => {
-    const input = await readFile('./src/2022/1/input.txt', 'utf8');
-
-    const elves = input
+export const solution = (file: string): void => {
+    const elves = file
         .split('\n\n')
         .map((elf) => {
             const foods = elf.split('\n');
@@ -23,5 +19,3 @@ const main = async () => {
     console.log('Elf with most calories:', mostCalories);
     console.log('Total of top three elves with most calories:', topThreeMostCaloriesTotal);
 };
-
-void main();

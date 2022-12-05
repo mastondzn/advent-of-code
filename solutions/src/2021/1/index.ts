@@ -1,9 +1,5 @@
-import { readFile } from 'node:fs/promises';
-
-const main = async () => {
-    const input = await readFile('./src/2021/1/input.txt', 'utf8');
-
-    const numbers = input.split('\n').map((number) => Number.parseInt(number, 10));
+export const solution = (file: string): void => {
+    const numbers = file.split('\n').map((number) => Number.parseInt(number, 10));
 
     let numberOfIncreasesInStepOne = 0;
     let numberOfIncreasesInStepTwo = 0;
@@ -28,5 +24,3 @@ const main = async () => {
     console.log('Depth increased', numberOfIncreasesInStepOne, 'times with first step algorithm.');
     console.log('Depth increased', numberOfIncreasesInStepTwo, 'times with second step algorithm.');
 };
-
-void main();

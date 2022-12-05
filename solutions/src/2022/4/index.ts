@@ -1,14 +1,10 @@
-import { readFile } from 'node:fs/promises';
-
 // https://adventofcode.com/2022/day/4
 // https://adventofcode.com/2022/day/4/input
-const main = async () => {
-    const input = await readFile('./src/2022/4/input.txt', 'utf8');
-
+export const solution = (file: string): void => {
     type Range = [number, number];
     type Pair = [Range, Range];
 
-    const pairs: Pair[] = input.split('\n').map((pair) => {
+    const pairs: Pair[] = file.split('\n').map((pair) => {
         const split = pair.split(',');
         const [a, b] = split[0].split('-').map((n) => Number.parseInt(n, 10));
         const [c, d] = split[1].split('-').map((n) => Number.parseInt(n, 10));
@@ -40,5 +36,3 @@ const main = async () => {
     console.log('A range fully contains the other', fullyContainedCount, 'times');
     console.log('A range partially contains the other', partiallyContainedCount, 'times');
 };
-
-void main();

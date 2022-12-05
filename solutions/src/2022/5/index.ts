@@ -1,14 +1,10 @@
-import { readFile } from 'node:fs/promises';
-
 import chalk from 'chalk';
 import { clone, transpose } from 'ramda';
 
 // https://adventofcode.com/2022/day/5
 // https://adventofcode.com/2022/day/5/input
-const main = async () => {
-    const input = await readFile('./src/2022/5/input.txt', 'utf8');
-
-    const [rawStacksInput, rawMovesInput] = input.split('\n\n');
+export const solution = (file: string): void => {
+    const [rawStacksInput, rawMovesInput] = file.split('\n\n');
 
     const rawStackLines = rawStacksInput.split('\n');
     // pop last line that labels the stacks
@@ -88,5 +84,3 @@ const main = async () => {
         chalk.blue(cratesOnTopPartTwo)
     );
 };
-
-void main();

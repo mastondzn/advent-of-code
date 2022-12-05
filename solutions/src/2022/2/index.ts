@@ -1,8 +1,4 @@
-import { readFile } from 'node:fs/promises';
-
-const main = async () => {
-    const input = await readFile('./src/2022/2/input.txt', 'utf8');
-
+export const solution = (file: string): void => {
     enum Move {
         Rock = 1,
         Paper = 2,
@@ -61,7 +57,7 @@ const main = async () => {
 
     let partOneScore = 0;
     let partTwoScore = 0;
-    const rounds = input.split('\n');
+    const rounds = file.split('\n');
     for (const round of rounds) {
         const [adversaryRawMove, ownRawMove] = round.split(' ') as [AdversaryRawMove, OwnRawMove];
         const adversaryMove = moveDecryptMap[adversaryRawMove];
@@ -80,5 +76,3 @@ const main = async () => {
     console.log('Part one score:', partOneScore);
     console.log('Part two score:', partTwoScore);
 };
-
-void main();

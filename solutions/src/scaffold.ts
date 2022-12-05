@@ -21,17 +21,11 @@ const main = async () => {
     }
 
     const txt = `
-    import { readFile } from 'node:fs/promises';
-        
     // https://adventofcode.com/${year}/day/${day}
     // https://adventofcode.com/${year}/day/${day}/input
-    const main = async () => {
-        const input = await readFile('./src/${year}/${day}/input.txt', 'utf8');
-
+    export const solution = (file: string): void => {
         // Solve the puzzle here! Don't forget to add your input file to input.txt.
     };
-
-    void main();
     `
         .replace(/^ {4}/gm, '')
         .trimStart();

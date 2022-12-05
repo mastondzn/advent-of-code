@@ -1,11 +1,7 @@
-import { readFile } from 'node:fs/promises';
-
-const main = async () => {
-    const input = await readFile('./src/2021/3/input.txt', 'utf8');
-
+export const solution = (file: string): void => {
     const bitsColumnMap: Record<string, number> = {};
 
-    const lines = input.split('\n');
+    const lines = file.split('\n');
     // eslint-disable-next-line unicorn/no-for-loop
     for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
         const line = lines[lineIndex];
@@ -61,5 +57,3 @@ const main = async () => {
     // https://adventofcode.com/2021/day/3
     // https://adventofcode.com/2021/day/3/input
 };
-
-void main();

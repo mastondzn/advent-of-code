@@ -22,7 +22,27 @@ const main = async () => {
         );
         return;
     }
-    await import(`./${year}/${day}`);
+
+    const input = await readFile(`./src/${year}/${day}/input.txt`, 'utf8');
+
+    const exports = (await import(`./${year}/${day}`)) as {
+        solution: (input: string) => void | Promise<void>;
+    };
+
+    if (typeof exports?.solution !== 'function') {
+        console.log(`No solution export found in ${file}`);
+        return;
+    }
+
+    try {
+        const maybePromise = exports.solution(input);
+        if (maybePromise instanceof Promise) {
+            await maybePromise;
+        }
+    } catch (error) {
+        console.log(`Error running solution for year ${year}, day ${day}:`);
+        console.error(error);
+    }
 };
 
 void main();
