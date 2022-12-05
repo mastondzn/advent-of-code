@@ -63,20 +63,24 @@ importers:
       '@mastondzn/eslint-config-custom': workspace:*
       '@mastondzn/tsconfig-custom': workspace:*
       '@types/node': '18'
+      '@types/ramda': ^0.28.20
       chalk: '4'
       eslint: ^8.28.0
       eslint-define-config: ^1.12.0
+      ramda: ^0.28.0
       ts-node: ^10.9.1
       ts-node-dev: ^2.0.0
       tslib: ^2.4.1
       typescript: ^4.9.3
     dependencies:
       chalk: 4.1.2
+      ramda: 0.28.0
       tslib: 2.4.1
     devDependencies:
       '@mastondzn/eslint-config-custom': link:../packages/eslint-config-custom
       '@mastondzn/tsconfig-custom': link:../packages/tsconfig-custom
       '@types/node': 18.11.9
+      '@types/ramda': 0.28.20
       eslint: 8.28.0
       eslint-define-config: 1.12.0
       ts-node: 10.9.1_wup25etrarvlqkprac7h35hj7u
@@ -233,6 +237,12 @@ packages:
   /@types/normalize-package-data/2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
     dev: false
+
+  /@types/ramda/0.28.20:
+    resolution: {integrity: sha512-MeUhzGSXQTRsY19JGn5LIBTLxVEnyF6HDNr08KSJqybsm4DlfLIgK1jBHjhpiSyk252tXYmp+UOe0UFg0UiFsA==}
+    dependencies:
+      ts-toolbelt: 6.15.5
+    dev: true
 
   /@types/semver/7.3.13:
     resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
@@ -1882,6 +1892,10 @@ packages:
   /queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
+  /ramda/0.28.0:
+    resolution: {integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==}
+    dev: false
+
   /react-is/16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
     dev: false
@@ -2237,6 +2251,10 @@ packages:
       typescript: 4.9.3
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
+    dev: true
+
+  /ts-toolbelt/6.15.5:
+    resolution: {integrity: sha512-FZIXf1ksVyLcfr7M317jbB67XFJhOO1YqdTcuGaq9q5jLUoTikukZ+98TPjKiP2jC5CgmYdWWYs0s2nLSU0/1A==}
     dev: true
 
   /tsconfig-paths/3.14.1:

@@ -13,12 +13,14 @@
     },
     "dependencies": {
         "chalk": "4",
+        "ramda": "^0.28.0",
         "tslib": "^2.4.1"
     },
     "devDependencies": {
         "@mastondzn/eslint-config-custom": "workspace:*",
         "@mastondzn/tsconfig-custom": "workspace:*",
         "@types/node": "18",
+        "@types/ramda": "^0.28.20",
         "eslint": "^8.28.0",
         "eslint-define-config": "^1.12.0",
         "ts-node": "^10.9.1",
