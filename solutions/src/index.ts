@@ -23,7 +23,17 @@ const main = async () => {
         return;
     }
 
-    const input = await readFile(`./src/${year}/${day}/input.txt`, 'utf8');
+    let input: string;
+    try {
+        input = await readFile(`./src/${year}/${day}/input.txt`, 'utf8');
+        if (input.length === 0 || /^\s+$/.test(input)) {
+            throw new Error('Input file is empty.');
+        }
+    } catch (error) {
+        console.error(`Failed to read input file for year ${year}, day ${day}.`);
+        console.error(error);
+        return;
+    }
 
     const exports = (await import(`./${year}/${day}`)) as {
         solution: (input: string) => void | Promise<void>;
