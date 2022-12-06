@@ -23,6 +23,8 @@ const main = async () => {
         return;
     }
 
+    const preInputReadTime = performance.now();
+
     let input: string;
     try {
         input = await readFile(`./src/${year}/${day}/input.txt`, 'utf8');
@@ -35,6 +37,8 @@ const main = async () => {
         return;
     }
 
+    const preImportTime = performance.now();
+
     const exports = (await import(`./${year}/${day}`)) as {
         solution: (file: string) => void | Promise<void>;
     };
@@ -43,6 +47,8 @@ const main = async () => {
         console.log(`No solution export found in ${file}`);
         return;
     }
+
+    const preSolutionTime = performance.now();
 
     try {
         const maybePromise = exports.solution(input);
@@ -53,6 +59,17 @@ const main = async () => {
         console.log(`Error running solution for year ${year}, day ${day}:`);
         console.error(error);
     }
+
+    const postSolutionTime = performance.now();
+
+    const inputFileReadTook = `${(preImportTime - preInputReadTime).toFixed(2)}ms`;
+    const importTook = `${(preSolutionTime - preImportTime).toFixed(2)}ms`;
+    const solutionTook = `${(postSolutionTime - preSolutionTime).toFixed(2)}ms`;
+
+    console.log('---');
+    console.log(`Reading input file took: ${chalk.yellow(inputFileReadTook)}`);
+    console.log(`Importing solution file took: ${chalk.yellow(importTook)}`);
+    console.log(`Running solution took: ${chalk.yellow(solutionTook)}`);
 };
 
 void main();
