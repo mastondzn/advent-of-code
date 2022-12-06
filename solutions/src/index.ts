@@ -66,10 +66,13 @@ const main = async () => {
     const importTook = `${(preSolutionTime - preImportTime).toFixed(2)}ms`;
     const solutionTook = `${(postSolutionTime - preSolutionTime).toFixed(2)}ms`;
 
-    console.log('---');
-    console.log(`Reading input file took: ${chalk.yellow(inputFileReadTook)}`);
-    console.log(`Importing solution file took: ${chalk.yellow(importTook)}`);
-    console.log(`Running solution took: ${chalk.yellow(solutionTook)}`);
+    const timings = [
+        `Input file read: ${inputFileReadTook}`,
+        `Import: ${importTook}`,
+        `Solution: ${solutionTook}`,
+    ].join(' / ');
+
+    console.log(chalk.black(timings));
 };
 
 void main();
