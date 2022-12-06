@@ -1,4 +1,4 @@
-export const validateArgs = (...args: (string | undefined)[]): boolean => {
+export const validateArgs = (...args: unknown[]): boolean => {
     const missingTruthyArgs = args.some((arg) => !arg);
     const hasUndefinedArgs = args.includes(undefined);
 
