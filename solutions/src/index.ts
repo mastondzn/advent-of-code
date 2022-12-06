@@ -67,12 +67,12 @@ const main = async () => {
     const solutionTook = `${(postSolutionTime - preSolutionTime).toFixed(2)}ms`;
 
     const timings = [
-        `Input file read: ${inputFileReadTook}`,
+        `Input read: ${inputFileReadTook}`,
         `Import: ${importTook}`,
         `Solution: ${solutionTook}`,
-    ].join(' / ');
+    ].join(' | ');
 
-    console.log(chalk.black(timings));
+    console.log(chalk.grey(timings));
 };
 
 void main();
