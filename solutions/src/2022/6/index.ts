@@ -4,9 +4,7 @@ export const solution = (file: string): void => {
     const getProcessedCount = (uniqueCharactersNeeded: number): number => {
         let brokeOut = false;
         let current = '';
-        let processed: number;
-        for (processed = 0; processed < file.length; processed++) {
-            const character = file[processed];
+        for (const character of file) {
             current += character;
             if (current.length < uniqueCharactersNeeded) continue;
 
@@ -18,7 +16,7 @@ export const solution = (file: string): void => {
             }
         }
         if (!brokeOut) throw new Error('No solution found');
-        return processed + 1;
+        return current.length;
     };
 
     console.log(getProcessedCount(4), 'characters need to be processed for start-of-packet');
