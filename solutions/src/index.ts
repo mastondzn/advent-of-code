@@ -36,7 +36,7 @@ const main = async () => {
     }
 
     const exports = (await import(`./${year}/${day}`)) as {
-        solution: (input: string) => void | Promise<void>;
+        solution: (file: string) => void | Promise<void>;
     };
 
     if (typeof exports?.solution !== 'function') {
