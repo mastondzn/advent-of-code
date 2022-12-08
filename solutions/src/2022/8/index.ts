@@ -3,25 +3,23 @@
 export const solution = (file: string): void => {
     type Grid = number[][];
 
-    type OutsideVisibility = {
+    type Visibility = {
         height: number;
-        isVisibleTop: boolean;
-        isVisibleBottom: boolean;
-        isVisibleRight: boolean;
-        isVisibleLeft: boolean;
-        isVisibleAnyWay: boolean;
+        outside: {
+            top: boolean;
+            bottom: boolean;
+            right: boolean;
+            left: boolean;
+            any: boolean;
+        };
+        inside: {
+            top: number;
+            bottom: number;
+            right: number;
+            left: number;
+            score: number;
+        };
     };
-    type OutsideVisibilities = OutsideVisibility[][];
-
-    type InsideVisibility = {
-        height: number;
-        amountSeenTop: number;
-        amountSeenBottom: number;
-        amountSeenRight: number;
-        amountSeenLeft: number;
-        scenicScore: number;
-    };
-    type InsideVisibilities = InsideVisibility[][];
 
     const grid: Grid = file
         .split('\n')
@@ -59,88 +57,62 @@ export const solution = (file: string): void => {
         return neighbors;
     };
 
-    // part one
-    const outsideVisibilities: OutsideVisibilities = grid.map((row, y) => {
-        return row.map((height, x) => {
+    // eslint-disable-next-line unicorn/consistent-function-scoping
+    const getAmountSeen = (height: number, neighbors: number[]): number => {
+        let amountSeen = 0;
+        for (const neighborHeight of neighbors) {
+            amountSeen++;
+            if (neighborHeight >= height) break;
+        }
+        return amountSeen;
+    };
+
+    let amountVisibleOutside = 0;
+    let biggestScoreInside = 0;
+
+    for (const [y, row] of grid.entries()) {
+        for (const [x, height] of row.entries()) {
             const topNeighbors = getNeighborsTop(y, x);
             const bottomNeighbors = getNeighborsBottom(y, x);
             const rightNeighbors = getNeighborsRight(y, x);
             const leftNeighbors = getNeighborsLeft(y, x);
 
-            const visibility = {
-                isVisibleTop: topNeighbors.every((neighbor) => neighbor < height),
-                isVisibleBottom: bottomNeighbors.every((neighbor) => neighbor < height),
-                isVisibleRight: rightNeighbors.every((neighbor) => neighbor < height),
-                isVisibleLeft: leftNeighbors.every((neighbor) => neighbor < height),
+            const outside = {
+                top: topNeighbors.every((neighbor) => neighbor < height),
+                bottom: bottomNeighbors.every((neighbor) => neighbor < height),
+                right: rightNeighbors.every((neighbor) => neighbor < height),
+                left: leftNeighbors.every((neighbor) => neighbor < height),
             };
 
-            return {
-                ...visibility,
+            const inside = {
+                top: getAmountSeen(height, topNeighbors),
+                bottom: getAmountSeen(height, bottomNeighbors),
+                right: getAmountSeen(height, rightNeighbors),
+                left: getAmountSeen(height, leftNeighbors),
+            };
+
+            const visibility: Visibility = {
                 height,
-                isVisibleAnyWay:
-                    visibility.isVisibleTop ||
-                    visibility.isVisibleBottom ||
-                    visibility.isVisibleRight ||
-                    visibility.isVisibleLeft,
-            };
-        });
-    });
-
-    const visibleCount = outsideVisibilities
-        .map((row) =>
-            // eslint-disable-next-line unicorn/no-array-reduce
-            row.reduce(
-                (current, { isVisibleAnyWay }) => (isVisibleAnyWay ? current + 1 : current),
-                0
-            )
-        )
-        .reduce((current, count) => current + count, 0);
-
-    // part two
-    const insideVisibilities: InsideVisibilities = grid.map((row, y) => {
-        return row.map((height, x) => {
-            const topNeighbors = getNeighborsTop(y, x);
-            const bottomNeighbors = getNeighborsBottom(y, x);
-            const rightNeighbors = getNeighborsRight(y, x);
-            const leftNeighbors = getNeighborsLeft(y, x);
-
-            const getAmountSeen = (neighbors: number[]): number => {
-                let amountSeen = 0;
-                for (const neighborHeight of neighbors) {
-                    amountSeen++;
-                    if (neighborHeight >= height) break;
-                }
-                return amountSeen;
+                outside: {
+                    ...outside,
+                    any: Object.values(outside).some(Boolean),
+                },
+                inside: {
+                    ...inside,
+                    score: inside.top * inside.bottom * inside.right * inside.left,
+                },
             };
 
-            const amounts = {
-                amountSeenTop: getAmountSeen(topNeighbors),
-                amountSeenBottom: getAmountSeen(bottomNeighbors),
-                amountSeenRight: getAmountSeen(rightNeighbors),
-                amountSeenLeft: getAmountSeen(leftNeighbors),
-            };
+            if (visibility.outside.any) {
+                amountVisibleOutside++;
+            }
 
-            return {
-                ...amounts,
-                height,
-                scenicScore:
-                    amounts.amountSeenTop *
-                    amounts.amountSeenBottom *
-                    amounts.amountSeenRight *
-                    amounts.amountSeenLeft,
-            };
-        });
-    });
-
-    let biggestScenicScore = 0;
-    for (const row of insideVisibilities) {
-        for (const { scenicScore } of row) {
-            if (scenicScore > biggestScenicScore) {
-                biggestScenicScore = scenicScore;
+            if (visibility.inside.score > biggestScoreInside) {
+                biggestScoreInside = visibility.inside.score;
             }
         }
     }
 
-    console.log('There are', visibleCount, 'trees visible from outside the grid.');
-    console.log('The biggest scenic score is', biggestScenicScore);
+    console.log('There are', amountVisibleOutside, 'trees visible from outside the grid.');
+    console.log('The biggest scenic score is', biggestScoreInside);
 };
