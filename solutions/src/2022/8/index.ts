@@ -72,23 +72,25 @@ export const solution = (file: string): void => {
 
     for (const [y, row] of grid.entries()) {
         for (const [x, height] of row.entries()) {
-            const topNeighbors = getNeighborsTop(y, x);
-            const bottomNeighbors = getNeighborsBottom(y, x);
-            const rightNeighbors = getNeighborsRight(y, x);
-            const leftNeighbors = getNeighborsLeft(y, x);
+            const neighbors = {
+                top: getNeighborsTop(y, x),
+                bottom: getNeighborsBottom(y, x),
+                right: getNeighborsRight(y, x),
+                left: getNeighborsLeft(y, x),
+            };
 
             const outside = {
-                top: topNeighbors.every((neighbor) => neighbor < height),
-                bottom: bottomNeighbors.every((neighbor) => neighbor < height),
-                right: rightNeighbors.every((neighbor) => neighbor < height),
-                left: leftNeighbors.every((neighbor) => neighbor < height),
+                top: neighbors.top.every((neighbor) => neighbor < height),
+                bottom: neighbors.bottom.every((neighbor) => neighbor < height),
+                right: neighbors.right.every((neighbor) => neighbor < height),
+                left: neighbors.left.every((neighbor) => neighbor < height),
             };
 
             const inside = {
-                top: getAmountSeen(height, topNeighbors),
-                bottom: getAmountSeen(height, bottomNeighbors),
-                right: getAmountSeen(height, rightNeighbors),
-                left: getAmountSeen(height, leftNeighbors),
+                top: getAmountSeen(height, neighbors.top),
+                bottom: getAmountSeen(height, neighbors.bottom),
+                right: getAmountSeen(height, neighbors.right),
+                left: getAmountSeen(height, neighbors.left),
             };
 
             const visibility: Visibility = {
