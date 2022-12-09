@@ -71,20 +71,20 @@ export const solution = (file: string): void => {
         return position;
     };
 
-    const bring = (childPosition: Position, parentPosition: Position): Position => {
-        if (parentPosition.x > childPosition.x) {
-            childPosition.x += 1;
+    const bring = (child: Position, parent: Position): Position => {
+        if (parent.x > child.x) {
+            child.x += 1;
         }
-        if (parentPosition.y > childPosition.y) {
-            childPosition.y += 1;
+        if (parent.y > child.y) {
+            child.y += 1;
         }
-        if (parentPosition.x < childPosition.x) {
-            childPosition.x -= 1;
+        if (parent.x < child.x) {
+            child.x -= 1;
         }
-        if (parentPosition.y < childPosition.y) {
-            childPosition.y -= 1;
+        if (parent.y < child.y) {
+            child.y -= 1;
         }
-        return childPosition;
+        return child;
     };
 
     const solve = (extraKnots = 0): number => {
