@@ -93,7 +93,9 @@ export const solution = (file: string): void => {
         // first is the head, middle are knots, last is the tail
         const currentPositions: Position[] = [{ x: 0, y: 0 }, ...children, { x: 0, y: 0 }];
 
+        // helper array to store tail positions
         const tailPositions: Position[] = [];
+
         for (const { direction, distance } of motions) {
             for (let i = 0; i < distance; i++) {
                 // move head
@@ -103,9 +105,7 @@ export const solution = (file: string): void => {
                 // for every child we need to check if its neighboring with the parent
                 // first is the head, so we dont need to check or move it
                 for (let j = 1; j < currentPositions.length; j++) {
-                    // eslint-disable-next-line no-constant-condition
-                    while (true) {
-                        if (areNeighboring(currentPositions[j], currentPositions[j - 1])) break;
+                    if (!areNeighboring(currentPositions[j], currentPositions[j - 1])) {
                         currentPositions[j] = bring(currentPositions[j], currentPositions[j - 1]);
                     }
 
@@ -120,6 +120,6 @@ export const solution = (file: string): void => {
         return new Set(tailPositions.map((position) => `${position.x},${position.y}`)).size;
     };
 
-    console.log(solve());
-    console.log(solve(8));
+    console.log('The tail visits', solve(), 'positions in part one');
+    console.log('The tail visits', solve(8), 'positions in part two');
 };
