@@ -87,37 +87,39 @@ export const solution = (file: string): void => {
         return childPosition;
     };
 
-    const solve = (knots = 0): number => {
-        const children: Position[] = Array.from({ length: knots }, () => ({ x: 0, y: 0 }));
-
-        // first is the head, middle are knots, last is the tail
-        const currentPositions: Position[] = [{ x: 0, y: 0 }, ...children, { x: 0, y: 0 }];
+    const solve = (extraKnots = 0): number => {
+        // first is the head, middle are extra knots, last is the tail
+        const knots: Position[] = [
+            { x: 0, y: 0 },
+            ...Array.from({ length: extraKnots }, () => ({ x: 0, y: 0 })),
+            { x: 0, y: 0 },
+        ];
 
         // helper array to store tail positions
-        const tailPositions: Position[] = [];
+        const tailHistory: Position[] = [];
 
         for (const { direction, distance } of motions) {
             for (let i = 0; i < distance; i++) {
                 // move head
-                currentPositions[0] = move(currentPositions[0], direction);
+                knots[0] = move(knots[0], direction);
 
                 // change children positions
                 // for every child we need to check if its neighboring with the parent
                 // first is the head, so we dont need to check or move it
-                for (let j = 1; j < currentPositions.length; j++) {
-                    if (!areNeighboring(currentPositions[j], currentPositions[j - 1])) {
-                        currentPositions[j] = bring(currentPositions[j], currentPositions[j - 1]);
+                for (let j = 1; j < knots.length; j++) {
+                    if (!areNeighboring(knots[j], knots[j - 1])) {
+                        knots[j] = bring(knots[j], knots[j - 1]);
                     }
 
                     // if its the last child its the tail, so push current position to helper array
-                    if (j === currentPositions.length - 1) {
-                        tailPositions.push({ ...currentPositions[j] });
+                    if (j === knots.length - 1) {
+                        tailHistory.push({ ...knots[j] });
                     }
                 }
             }
         }
 
-        return new Set(tailPositions.map((position) => `${position.x},${position.y}`)).size;
+        return new Set(tailHistory.map((position) => `${position.x},${position.y}`)).size;
     };
 
     console.log('The tail visits', solve(), 'positions in part one');
