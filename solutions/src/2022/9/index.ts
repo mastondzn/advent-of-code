@@ -32,91 +32,94 @@ export const solution = (file: string): void => {
         };
     });
 
-    const headPosition: Position = {
-        x: 0,
-        y: 0,
-    };
-
-    const tailPosition: Position = {
-        x: 0,
-        y: 0,
-    };
-
-    const tailIsNeighbor = (): boolean => {
-        const yDiff = Math.abs(headPosition.y - tailPosition.y);
-        const xDiff = Math.abs(headPosition.x - tailPosition.x);
+    const areNeighboring = (position1: Position, position2: Position): boolean => {
+        const yDiff = Math.abs(position1.y - position2.y);
+        const xDiff = Math.abs(position1.x - position2.x);
 
         const isOnTop = yDiff === 0 && xDiff === 0;
-        const isHorizontally = yDiff === 0 && xDiff === 1;
-        const isVertically = yDiff === 1 && xDiff === 0;
-        const isDiagonal = yDiff === 1 && xDiff === 1;
+        const isHorizontallyNeighboring = yDiff === 0 && xDiff === 1;
+        const isVerticallyNeighboring = yDiff === 1 && xDiff === 0;
+        const isDiagonallyNeighboring = yDiff === 1 && xDiff === 1;
 
-        return isDiagonal || isOnTop || isHorizontally || isVertically;
-    };
-
-    const moveHead = (direction: Direction): void => {
-        // eslint-disable-next-line unicorn/prefer-switch
-        if (direction === Direction.Up) {
-            headPosition.y += 1;
-        } else if (direction === Direction.Down) {
-            headPosition.y -= 1;
-        } else if (direction === Direction.Left) {
-            headPosition.x -= 1;
-        } else if (direction === Direction.Right) {
-            headPosition.x += 1;
-        }
-    };
-
-    const bringTail = (): void => {
-        if (headPosition.x > tailPosition.x) {
-            tailPosition.x += 1;
-        }
-        if (headPosition.y > tailPosition.y) {
-            tailPosition.y += 1;
-        }
-        if (headPosition.x < tailPosition.x) {
-            tailPosition.x -= 1;
-        }
-        if (headPosition.y < tailPosition.y) {
-            tailPosition.y -= 1;
-        }
-    };
-
-    const headPositions: Position[] = [];
-    const tailPositions: Position[] = [];
-
-    headPositions.push({ ...headPosition });
-    tailPositions.push({ ...tailPosition });
-
-    for (const { direction, distance } of motions) {
-        for (let i = 0; i < distance; i++) {
-            moveHead(direction);
-
-            // eslint-disable-next-line no-constant-condition
-            while (true) {
-                if (tailIsNeighbor()) {
-                    break;
-                }
-                bringTail();
-            }
-
-            headPositions.push({ ...headPosition });
-            tailPositions.push({ ...tailPosition });
-        }
-    }
-
-    let placesVisited = 0;
-    const currentPositions: Position[] = [];
-    for (const { x, y } of tailPositions) {
-        const isVisited = currentPositions.some(
-            ({ x: thisX, y: thisY }) => thisX === x && thisY === y
+        return (
+            isDiagonallyNeighboring ||
+            isOnTop ||
+            isHorizontallyNeighboring ||
+            isVerticallyNeighboring
         );
+    };
 
-        if (!isVisited) {
-            placesVisited += 1;
-            currentPositions.push({ x, y });
+    const move = (position: Position, direction: Direction): Position => {
+        switch (direction) {
+            case Direction.Up: {
+                position.y += 1;
+                break;
+            }
+            case Direction.Down: {
+                position.y -= 1;
+                break;
+            }
+            case Direction.Left: {
+                position.x -= 1;
+                break;
+            }
+            case Direction.Right: {
+                position.x += 1;
+                break;
+            }
         }
-    }
+        return position;
+    };
 
-    console.log(placesVisited);
+    const bring = (childPosition: Position, parentPosition: Position): Position => {
+        if (parentPosition.x > childPosition.x) {
+            childPosition.x += 1;
+        }
+        if (parentPosition.y > childPosition.y) {
+            childPosition.y += 1;
+        }
+        if (parentPosition.x < childPosition.x) {
+            childPosition.x -= 1;
+        }
+        if (parentPosition.y < childPosition.y) {
+            childPosition.y -= 1;
+        }
+        return childPosition;
+    };
+
+    const solve = (knots = 0): number => {
+        const children: Position[] = Array.from({ length: knots }, () => ({ x: 0, y: 0 }));
+
+        // first is the head, middle are knots, last is the tail
+        const currentPositions: Position[] = [{ x: 0, y: 0 }, ...children, { x: 0, y: 0 }];
+
+        const tailPositions: Position[] = [];
+        for (const { direction, distance } of motions) {
+            for (let i = 0; i < distance; i++) {
+                // move head
+                currentPositions[0] = move(currentPositions[0], direction);
+
+                // change children positions
+                // for every child we need to check if its neighboring with the parent
+                // first is the head, so we dont need to check or move it
+                for (let j = 1; j < currentPositions.length; j++) {
+                    // eslint-disable-next-line no-constant-condition
+                    while (true) {
+                        if (areNeighboring(currentPositions[j], currentPositions[j - 1])) break;
+                        currentPositions[j] = bring(currentPositions[j], currentPositions[j - 1]);
+                    }
+
+                    // if its the last child its the tail, so push current position to helper array
+                    if (j === currentPositions.length - 1) {
+                        tailPositions.push({ ...currentPositions[j] });
+                    }
+                }
+            }
+        }
+
+        return new Set(tailPositions.map((position) => `${position.x},${position.y}`)).size;
+    };
+
+    console.log(solve());
+    console.log(solve(8));
 };
