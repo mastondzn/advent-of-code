@@ -119,7 +119,7 @@ export const solution = (file: string): void => {
             }
         }
 
-        return new Set(tailHistory.map((position) => `${position.x},${position.y}`)).size;
+        return new Set(tailHistory.map(({ x, y }) => `${x},${y}`)).size;
     };
 
     console.log('The tail visits', solve(), 'positions in part one');
