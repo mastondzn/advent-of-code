@@ -72,10 +72,12 @@ importers:
       ts-node-dev: ^2.0.0
       tslib: ^2.4.1
       typescript: ^4.9.3
+      zod: ^3.20.2
     dependencies:
       chalk: 4.1.2
       ramda: 0.28.0
       tslib: 2.4.1
+      zod: 3.20.2
     devDependencies:
       '@mastondzn/eslint-config-custom': link:../packages/eslint-config-custom
       '@mastondzn/tsconfig-custom': link:../packages/tsconfig-custom
@@ -2450,3 +2452,7 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  /zod/3.20.2:
+    resolution: {integrity: sha512-1MzNQdAvO+54H+EaK5YpyEy0T+Ejo/7YLHS93G3RnYWh5gaotGHwGeN/ZO687qEDU2y4CdStQYXVHIgrUl5UVQ==}
+    dev: false
