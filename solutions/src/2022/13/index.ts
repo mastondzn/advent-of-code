@@ -1,5 +1,5 @@
 import { equals } from 'ramda';
-import z from 'zod';
+import { z } from 'zod';
 
 // https://adventofcode.com/2022/day/13
 // https://adventofcode.com/2022/day/13/input
