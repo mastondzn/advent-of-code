@@ -1,6 +1,5 @@
-import { readFile } from 'node:fs/promises';
-
 import chalk from 'chalk';
+import { readFile } from 'fs-extra';
 
 import { validateArgs } from './utils';
 

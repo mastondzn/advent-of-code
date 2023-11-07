@@ -1,6 +1,5 @@
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
-
 import chalk from 'chalk';
+import { exists, mkdir, writeFile } from 'fs-extra';
 
 import { validateArgs } from './utils';
 
@@ -12,9 +11,7 @@ const main = async () => {
         return;
     }
 
-    const existingFile = !!(await readFile(`./src/${year}/${day}/index.ts`, 'utf8').catch(
-        () => false
-    ));
+    const existingFile = await exists(`./src/${year}/${day}/index.ts`);
     if (existingFile) {
         console.log(`Files for year ${year}, day ${day} already exist!`);
         return;
