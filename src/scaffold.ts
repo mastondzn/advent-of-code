@@ -2,15 +2,17 @@ import chalk from 'chalk';
 import dedent from 'dedent';
 import { exists, mkdir, writeFile } from 'fs-extra';
 
-import { validateArgs } from './utils';
+import { parseArgs } from './utils';
 
 const main = async () => {
-    const year = process.argv[2];
-    const day = process.argv[3];
+    const args = parseArgs();
 
-    if (!validateArgs(year, day)) {
+    if (!args) {
+        console.log('Please provide a day and year (for example pnpm scaffold 2022 7)');
         return;
     }
+
+    const { day, year } = args;
 
     const existingFile = await exists(`./src/${year}/${day}/index.ts`);
     if (existingFile) {
@@ -18,7 +20,7 @@ const main = async () => {
         return;
     }
 
-    const txt = dedent`
+    const txt = dedent/* ts */ `
         // https://adventofcode.com/${year}/day/${day}
         // https://adventofcode.com/${year}/day/${day}/input
         export const solution = (file: string): void => {

@@ -1,15 +1,17 @@
 import chalk from 'chalk';
 import { readFile } from 'fs-extra';
 
-import { validateArgs } from './utils';
+import { parseArgs } from './utils';
 
 const main = async () => {
-    const year = process.argv[2];
-    const day = process.argv[3];
+    const args = parseArgs();
 
-    if (!validateArgs(year, day)) {
+    if (!args) {
+        console.log('Please provide a day and year (for example pnpm start 2022 7)');
         return;
     }
+
+    const { day, year } = args;
 
     const file = `./src/${year}/${day}/index.ts`;
     const hasDay = !!(await readFile(file, 'utf8').catch(() => false));
@@ -71,6 +73,7 @@ const main = async () => {
         `Solution: ${solutionTook}`,
     ].join(' | ');
 
+    console.log('\n');
     console.log(chalk.grey(timings));
 };
 
