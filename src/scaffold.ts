@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import dedent from 'dedent';
 import { exists, mkdir, writeFile } from 'fs-extra';
 
 import { validateArgs } from './utils';
@@ -17,15 +18,13 @@ const main = async () => {
         return;
     }
 
-    const txt = `
-    // https://adventofcode.com/${year}/day/${day}
-    // https://adventofcode.com/${year}/day/${day}/input
-    export const solution = (file: string): void => {
-        // Solve the puzzle here! Don't forget to add your input file to input.txt.
-    };
-    `
-        .replaceAll(/^ {4}/gm, '')
-        .trimStart();
+    const txt = dedent`
+      // https://adventofcode.com/${year}/day/${day}
+      // https://adventofcode.com/${year}/day/${day}/input
+      export const solution = (file: string): void => {
+          // Solve the puzzle here! Don't forget to add your input file to input.txt.
+      };
+    `;
 
     await mkdir(`./src/${year}/${day}`, { recursive: true });
 
