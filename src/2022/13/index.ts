@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { equals } from 'ramda';
 import { z } from 'zod';
 
@@ -14,8 +15,8 @@ export const solution = (file: string): void => {
     const pairs: Pair[] = file.split('\n\n').map((rawPair) => {
         const [rawLeft, rawRight] = rawPair.split('\n');
 
-        const left = deepArraySchema.parse(JSON.parse(rawLeft));
-        const right = deepArraySchema.parse(JSON.parse(rawRight));
+        const left = deepArraySchema.parse(JSON.parse(rawLeft!));
+        const right = deepArraySchema.parse(JSON.parse(rawRight!));
 
         return { left, right };
     });
@@ -30,7 +31,7 @@ export const solution = (file: string): void => {
         } else if (Array.isArray(left) && Array.isArray(right)) {
             const minLength = Math.min(left.length, right.length);
             for (let i = 0; i < minLength; i++) {
-                const compared = compare(left[i], right[i]);
+                const compared = compare(left[i]!, right[i]!);
                 if (compared !== 0) return compared;
             }
             return left.length - right.length;

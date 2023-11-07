@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2022/day/9
 // https://adventofcode.com/2022/day/9/input
 export const solution = (file: string): void => {
@@ -19,7 +20,7 @@ export const solution = (file: string): void => {
     };
 
     const motions: Motion[] = file.split('\n').map((rawMotion) => {
-        const [direction, distance] = rawMotion.split(' ');
+        const [direction, distance] = rawMotion.split(' ') as [string, string];
         if (/[^DLRU]/.test(direction)) {
             throw new Error(`Invalid direction: ${direction}`);
         }
@@ -101,19 +102,19 @@ export const solution = (file: string): void => {
         for (const { direction, distance } of motions) {
             for (let i = 0; i < distance; i++) {
                 // move head
-                knots[0] = move(knots[0], direction);
+                knots[0] = move(knots[0]!, direction);
 
                 // change children positions
                 // for every child we need to check if its neighboring with the parent
                 // first is the head, so we dont need to check or move it
                 for (let j = 1; j < knots.length; j++) {
-                    if (!areNeighboring(knots[j], knots[j - 1])) {
-                        knots[j] = bring(knots[j], knots[j - 1]);
+                    if (!areNeighboring(knots[j]!, knots[j - 1]!)) {
+                        knots[j] = bring(knots[j]!, knots[j - 1]!);
                     }
 
                     // if its the last child its the tail, so push current position to helper array
                     if (j === knots.length - 1) {
-                        tailHistory.push({ ...knots[j] });
+                        tailHistory.push({ ...knots[j]! });
                     }
                 }
             }

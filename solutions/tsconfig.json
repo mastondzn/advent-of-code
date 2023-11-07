@@ -1,5 +1,0 @@
-{
-    "extends": "@mastondzn/tsconfig-custom/node.json",
-    "exclude": ["node_modules", "dist", "coverage"],
-    "include": ["src/**/*", "tests/**/*"]
-}

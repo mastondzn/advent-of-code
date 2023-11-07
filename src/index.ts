@@ -43,7 +43,7 @@ const main = async () => {
         solution: (file: string) => void | Promise<void>;
     };
 
-    if (typeof exports?.solution !== 'function') {
+    if (typeof exports.solution !== 'function') {
         console.log(`No solution export found in ${file}`);
         return;
     }

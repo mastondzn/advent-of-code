@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2022/day/8
 // https://adventofcode.com/2022/day/8/input
 export const solution = (file: string): void => {
@@ -27,8 +28,8 @@ export const solution = (file: string): void => {
 
     const getNeighborsRight = (y: number, x: number): number[] => {
         const neighbors: number[] = [];
-        for (let i = x + 1; i < grid[y].length; i++) {
-            neighbors.push(grid[y][i]);
+        for (let i = x + 1; i < grid[y]!.length; i++) {
+            neighbors.push(grid[y]![i]!);
         }
         return neighbors;
     };
@@ -36,7 +37,7 @@ export const solution = (file: string): void => {
     const getNeighborsLeft = (y: number, x: number): number[] => {
         const neighbors: number[] = [];
         for (let i = x - 1; i >= 0; i--) {
-            neighbors.push(grid[y][i]);
+            neighbors.push(grid[y]![i]!);
         }
         return neighbors;
     };
@@ -44,7 +45,7 @@ export const solution = (file: string): void => {
     const getNeighborsTop = (y: number, x: number): number[] => {
         const neighbors: number[] = [];
         for (let i = y - 1; i >= 0; i--) {
-            neighbors.push(grid[i][x]);
+            neighbors.push(grid[i]![x]!);
         }
         return neighbors;
     };
@@ -52,7 +53,7 @@ export const solution = (file: string): void => {
     const getNeighborsBottom = (y: number, x: number): number[] => {
         const neighbors: number[] = [];
         for (let i = y + 1; i < grid.length; i++) {
-            neighbors.push(grid[i][x]);
+            neighbors.push(grid[i]![x]!);
         }
         return neighbors;
     };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2022/day/10
 // https://adventofcode.com/2022/day/10/input
 export const solution = (file: string): void => {
@@ -16,12 +17,12 @@ export const solution = (file: string): void => {
             return { type };
         }
         if (type === 'addx') {
-            if (!/^-?\d+$/.test(value)) {
+            if (!/^-?\d+$/.test(value!)) {
                 throw new Error(`Invalid value: ${value}`);
             }
             return {
                 type: 'addx',
-                value: Number.parseInt(value, 10),
+                value: Number.parseInt(value!, 10),
             };
         }
         throw new Error(`Invalid type: ${type}`);

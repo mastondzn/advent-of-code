@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2022/day/7
 // https://adventofcode.com/2022/day/7/input
 export const solution = (file: string): void => {
@@ -14,14 +15,14 @@ export const solution = (file: string): void => {
             const [dirOrSize, dirOrFile] = rawOutput.split(' ');
 
             if (dirOrSize === 'dir') {
-                return { type: 'directory', name: dirOrFile };
+                return { type: 'directory', name: dirOrFile! };
             }
 
-            if (/^\d+$/.test(dirOrSize)) {
-                const parsedSize = Number.parseInt(dirOrSize, 10);
+            if (/^\d+$/.test(dirOrSize!)) {
+                const parsedSize = Number.parseInt(dirOrSize!, 10);
                 if (Number.isNaN(parsedSize)) throw new Error(`Invalid size: ${dirOrSize}`);
 
-                return { type: 'file', name: dirOrFile, size: parsedSize };
+                return { type: 'file', name: dirOrFile!, size: parsedSize };
             }
 
             throw new Error(`Invalid output: ${rawOutput}`);
@@ -33,10 +34,10 @@ export const solution = (file: string): void => {
         .filter(Boolean)
         .map((rawAction) => {
             const [actionWithArgument, ...rawOutput] = rawAction.split('\n');
-            const [action, argument] = actionWithArgument.split(' ');
+            const [action, argument] = actionWithArgument!.split(' ');
 
             if (action === 'cd') {
-                return { type: action, path: argument };
+                return { type: action, path: argument! };
             }
 
             if (action === 'ls') {
@@ -85,7 +86,7 @@ export const solution = (file: string): void => {
     // part two
     const totalSize = 70_000_000;
     const neededSpace = 30_000_000;
-    const currentUsage = directorySizes['root'];
+    const currentUsage = directorySizes['root']!;
     const currentUnusedSpace = totalSize - currentUsage;
     const spaceToFree = neededSpace - currentUnusedSpace;
 

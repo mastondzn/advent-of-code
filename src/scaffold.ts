@@ -27,7 +27,7 @@ const main = async () => {
         // Solve the puzzle here! Don't forget to add your input file to input.txt.
     };
     `
-        .replace(/^ {4}/gm, '')
+        .replaceAll(/^ {4}/gm, '')
         .trimStart();
 
     await mkdir(`./src/${year}/${day}`, { recursive: true });

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2022/day/3
 // https://adventofcode.com/2022/day/3/input
 export const solution = (file: string): void => {
@@ -18,9 +19,9 @@ export const solution = (file: string): void => {
     // eslint-disable-next-line unicorn/no-for-loop
     for (let i = 0; i < rucksacks.length; i++) {
         // part one
-        const numberOfItemsInRucksack = rucksacks[i].length;
-        const leftCompartment = new Set(rucksacks[i].slice(0, numberOfItemsInRucksack / 2));
-        const rightCompartment = new Set(rucksacks[i].slice(numberOfItemsInRucksack / 2));
+        const numberOfItemsInRucksack = rucksacks[i]!.length;
+        const leftCompartment = new Set(rucksacks[i]!.slice(0, numberOfItemsInRucksack / 2));
+        const rightCompartment = new Set(rucksacks[i]!.slice(numberOfItemsInRucksack / 2));
         for (const letter of leftCompartment) {
             if (rightCompartment.has(letter)) {
                 partOneSum += getPriority(letter);

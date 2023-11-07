@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 export const solution = (file: string): void => {
     const bitsColumnMap: Record<string, number> = {};
 
@@ -6,8 +7,8 @@ export const solution = (file: string): void => {
     for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
         const line = lines[lineIndex];
 
-        for (let columnIndex = 0; columnIndex < line.length; columnIndex++) {
-            const BIT = Number.parseInt(lines[lineIndex][columnIndex], 10);
+        for (let columnIndex = 0; columnIndex < line!.length; columnIndex++) {
+            const BIT = Number.parseInt(lines[lineIndex]![columnIndex]!, 10);
 
             if (!bitsColumnMap[columnIndex]) {
                 bitsColumnMap[columnIndex] = 0;

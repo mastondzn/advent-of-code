@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import chalk from 'chalk';
 import { clone, transpose } from 'ramda';
 
@@ -6,7 +7,7 @@ import { clone, transpose } from 'ramda';
 export const solution = (file: string): void => {
     const [rawStacksInput, rawMovesInput] = file.split('\n\n');
 
-    const rawStackLines = rawStacksInput.split('\n');
+    const rawStackLines = rawStacksInput!.split('\n');
     // pop last line that labels the stacks
     rawStackLines.pop();
 
@@ -15,7 +16,7 @@ export const solution = (file: string): void => {
         const split = e.split(/ {1,4}/gm);
         return split.map((e) => {
             // eslint-disable-next-line unicorn/better-regex
-            if (e) return e.replace(/\[|\]/gm, '');
+            if (e) return e.replaceAll(/\[|\]/gm, '');
             return;
         });
     });
@@ -29,9 +30,9 @@ export const solution = (file: string): void => {
         to: number;
     };
 
-    const moves: Move[] = rawMovesInput.split('\n').map((e) => {
+    const moves: Move[] = rawMovesInput!.split('\n').map((e) => {
         const numbers = e
-            .replace(/[A-Za-z]+\s/gm, '')
+            .replaceAll(/[A-Za-z]+\s/gm, '')
             .split(' ')
             .map((e) => {
                 const parsed = Number.parseInt(e, 10);
@@ -39,10 +40,10 @@ export const solution = (file: string): void => {
                 return parsed;
             });
 
-        const amount = numbers[0];
+        const amount = numbers[0]!;
         // from/to are 1-indexed
-        const from = numbers[1] - 1;
-        const to = numbers[2] - 1;
+        const from = numbers[1]! - 1;
+        const to = numbers[2]! - 1;
 
         return { amount, from, to };
     });
@@ -54,9 +55,9 @@ export const solution = (file: string): void => {
         const givingStack = partOneStacks[from];
         const receivingStack = partOneStacks[to];
         while (amount > 0) {
-            const top = givingStack.pop();
+            const top = givingStack!.pop();
             if (!top) break;
-            receivingStack.push(top);
+            receivingStack!.push(top);
             amount--;
         }
     }
@@ -67,9 +68,9 @@ export const solution = (file: string): void => {
         const givingStack = partTwoStacks[from];
         const receivingStack = partTwoStacks[to];
 
-        const top = givingStack.slice(-amount);
-        givingStack.splice(-amount, amount);
-        receivingStack.push(...top);
+        const top = givingStack!.slice(-amount);
+        givingStack!.splice(-amount, amount);
+        receivingStack!.push(...top);
     }
 
     const cratesOnTopPartOne = partOneStacks.map((e) => e.at(-1)).join('');

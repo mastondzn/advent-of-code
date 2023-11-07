@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2022/day/4
 // https://adventofcode.com/2022/day/4/input
 export const solution = (file: string): void => {
@@ -6,8 +7,8 @@ export const solution = (file: string): void => {
 
     const pairs: Pair[] = file.split('\n').map((pair) => {
         const split = pair.split(',');
-        const [a, b] = split[0].split('-').map((n) => Number.parseInt(n, 10));
-        const [c, d] = split[1].split('-').map((n) => Number.parseInt(n, 10));
+        const [a, b] = split[0]!.split('-').map((n) => Number.parseInt(n, 10)) as Range;
+        const [c, d] = split[1]!.split('-').map((n) => Number.parseInt(n, 10)) as Range;
 
         return [
             [a, b],
