@@ -19,11 +19,11 @@ const main = async () => {
     }
 
     const txt = dedent`
-      // https://adventofcode.com/${year}/day/${day}
-      // https://adventofcode.com/${year}/day/${day}/input
-      export const solution = (file: string): void => {
-          // Solve the puzzle here! Don't forget to add your input file to input.txt.
-      };
+        // https://adventofcode.com/${year}/day/${day}
+        // https://adventofcode.com/${year}/day/${day}/input
+        export const solution = (file: string): void => {
+            // Solve the puzzle here! Don't forget to add your input file to input.txt.
+        };
     `;
 
     await mkdir(`./src/${year}/${day}`, { recursive: true });
@@ -38,8 +38,8 @@ const main = async () => {
 
     const lines = [
         `Done! Scaffolded files for year ${year}, day ${day}.`,
-        `Paste your puzzle input into ${chalk.yellow(inputFile)}`,
-        `Then you can start editing ${chalk.yellow(codeFile)}!`,
+        `Paste your puzzle input into ${chalk.yellow(inputFile.replace('./', ''))}`,
+        `Then you can start editing ${chalk.yellow(codeFile.replace('./', ''))}!`,
         `Run ${chalk.bgBlue(
             `\`pnpm dev ${year} ${day}\``
         )} to run your solution and watch for changes.`,
