@@ -6,12 +6,11 @@ import { z } from 'zod';
 // https://adventofcode.com/2022/day/13/input
 export const solution = (file: string): void => {
     type DeepArray = (number | DeepArray)[];
-    type Pair = { left: DeepArray; right: DeepArray };
-
     const deepArraySchema: z.ZodType<DeepArray> = z.lazy(() =>
         z.array(z.number().or(deepArraySchema))
     );
 
+    type Pair = { left: DeepArray; right: DeepArray };
     const pairs: Pair[] = file.split('\n\n').map((rawPair) => {
         const [rawLeft, rawRight] = rawPair.split('\n');
 

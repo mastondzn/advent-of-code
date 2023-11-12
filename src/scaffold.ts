@@ -38,20 +38,18 @@ const main = async () => {
         writeFile(inputFile, '', { encoding: 'utf8' }),
     ]);
 
-    const lines = [
-        `Done! Scaffolded files for year ${year}, day ${day}.`,
-        `Paste your puzzle input into ${chalk.yellow(inputFile.replace('./', ''))}`,
-        `Then you can start editing ${chalk.yellow(codeFile.replace('./', ''))}!`,
-        `Run ${chalk.bgBlue(
-            `\`pnpm dev ${year} ${day}\``
-        )} to run your solution and watch for changes.`,
-        `Happy advent of code!`,
-        ``,
-        chalk.blue(`https://adventofcode.com/${year}/day/${day}`),
-        chalk.blue(`https://adventofcode.com/${year}/day/${day}/input`),
-    ];
+    const message = dedent`
+        Done! Scaffolded files for year ${year}, day ${day}.
+        Paste your puzzle input into ${chalk.yellow(inputFile.replace('./', ''))}
+        Then you can start editing ${chalk.yellow(codeFile.replace('./', ''))}!
+        Run ${chalk.bgBlue(`pnpm dev ${year} ${day}`)} to run your solution and watch for changes.
+        Happy advent of code!
 
-    console.log(lines.join('\n'));
+        ${chalk.blue(`https://adventofcode.com/${year}/day/${day}`)}
+        ${chalk.blue(`https://adventofcode.com/${year}/day/${day}/input`)}
+    `;
+
+    console.log(message);
 };
 
 void main();
