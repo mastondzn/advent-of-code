@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 export const solution = (file: string): void => {
     const numbers = file.split('\n').map((number) => Number.parseInt(number, 10));
 

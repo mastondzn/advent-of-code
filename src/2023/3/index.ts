@@ -1,7 +1,3 @@
-/* eslint-disable unicorn/no-array-reduce */
-/* eslint-disable unicorn/no-for-loop */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable unicorn/consistent-function-scoping */
 // https://adventofcode.com/2023/day/3
 // https://adventofcode.com/2023/day/3/input
 export const solution = (file: string): void => {
@@ -16,7 +12,6 @@ export const solution = (file: string): void => {
     type PartNumber = { number: number } & Subgrid;
 
     function* iterate(
-        // eslint-disable-next-line unicorn/no-object-as-default-parameter
         { startsAt, endsAt }: Subgrid = {
             startsAt: { x: 0, y: 0 },
             endsAt: { x: width, y: height },
@@ -36,9 +31,7 @@ export const solution = (file: string): void => {
         const partNumbers: PartNumber[] = [];
         const expelled = new Set<string>();
         for (const { x, y, char } of iterate()) {
-            if (expelled.has(`${x},${y}`)) {
-                continue;
-            }
+            if (expelled.has(`${x},${y}`)) continue;
 
             if (/^\d$/.test(char)) {
                 let digits = char;
@@ -88,9 +81,9 @@ export const solution = (file: string): void => {
     };
 
     const partNumbers = getPartNumbers();
-    const numbersWithNeighbors = partNumbers.filter((element) =>
-        numberHasRelevantNeighbors(element)
-    );
+    const numbersWithNeighbors = partNumbers.filter((number) => {
+        return numberHasRelevantNeighbors(number);
+    });
     const partOneSum = numbersWithNeighbors.reduce((acc, { number }) => acc + number, 0);
     console.log('Part 1:', partOneSum);
 

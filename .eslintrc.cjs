@@ -52,6 +52,7 @@ module.exports = defineConfig({
         ],
 
         'object-shorthand': ['error', 'always'],
+        'prefer-const': 'warn',
 
         '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
         '@typescript-eslint/no-misused-promises': ['error', { checksVoidReturn: false }],
@@ -71,5 +72,9 @@ module.exports = defineConfig({
         'unicorn/prefer-top-level-await': 'off',
         'unicorn/prefer-event-target': 'off',
         'unicorn/template-indent': ['error', { indent: 4 }],
+        'unicorn/no-for-loop': 'off',
+        'unicorn/consistent-function-scoping': 'off',
+        'unicorn/no-array-reduce': 'off',
+        'unicorn/no-object-as-default-parameter': 'off',
     },
 });

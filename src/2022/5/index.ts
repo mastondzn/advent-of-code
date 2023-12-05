@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import chalk from 'chalk';
 import { clone, transpose } from 'ramda';
 
@@ -15,8 +14,7 @@ export const solution = (file: string): void => {
     const rawStackChars = rawStackLines.map((e) => {
         const split = e.split(/ {1,4}/gm);
         return split.map((e) => {
-            // eslint-disable-next-line unicorn/better-regex
-            if (e) return e.replaceAll(/\[|\]/gm, '');
+            if (e) return e.replaceAll(/\[]/gm, '');
             return;
         });
     });
@@ -50,7 +48,7 @@ export const solution = (file: string): void => {
 
     // part one
     const partOneStacks = clone(stacks);
-    // eslint-disable-next-line prefer-const
+
     for (let { amount, from, to } of moves) {
         const givingStack = partOneStacks[from];
         const receivingStack = partOneStacks[to];

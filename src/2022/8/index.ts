@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2022/day/8
 // https://adventofcode.com/2022/day/8/input
 export const solution = (file: string): void => {
@@ -58,7 +57,6 @@ export const solution = (file: string): void => {
         return neighbors;
     };
 
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     const getAmountSeen = (height: number, neighbors: number[]): number => {
         let amountSeen = 0;
         for (const neighborHeight of neighbors) {

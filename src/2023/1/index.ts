@@ -1,5 +1,3 @@
-/* eslint-disable unicorn/no-array-reduce */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2023/day/1
 // https://adventofcode.com/2023/day/1/input
 export const solution = (file: string): void => {

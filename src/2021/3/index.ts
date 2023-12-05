@@ -1,9 +1,8 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 export const solution = (file: string): void => {
     const bitsColumnMap: Record<string, number> = {};
 
     const lines = file.split('\n');
-    // eslint-disable-next-line unicorn/no-for-loop
+
     for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
         const line = lines[lineIndex];
 

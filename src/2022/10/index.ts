@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2022/day/10
 // https://adventofcode.com/2022/day/10/input
 export const solution = (file: string): void => {
@@ -11,11 +10,19 @@ export const solution = (file: string): void => {
               value: number;
           };
 
+    type Cycle =
+        | {
+              type: 'none';
+          }
+        | { type: 'add'; value: number };
+
     const instructions: Instruction[] = file.split('\n').map((rawInstruction) => {
         const [type, value] = rawInstruction.split(' ');
+
         if (type === 'noop') {
             return { type };
         }
+
         if (type === 'addx') {
             if (!/^-?\d+$/.test(value!)) {
                 throw new Error(`Invalid value: ${value}`);
@@ -25,21 +32,37 @@ export const solution = (file: string): void => {
                 value: Number.parseInt(value!, 10),
             };
         }
+
         throw new Error(`Invalid type: ${type}`);
     });
 
-    const cycles: number[] = [];
+    const cycles: Cycle[] = [];
 
     for (const instruction of instructions) {
         if (instruction.type === 'noop') {
-            cycles.push(0, 0);
+            cycles.push({ type: 'none' });
         }
 
         if (instruction.type === 'addx') {
-            cycles.push(instruction.value, 0);
+            cycles.push({ type: 'none' }, { type: 'add', value: instruction.value });
         }
     }
 
-    console.log(cycles);
-    // Solve the puzzle here! Don't forget to add your input file to input.txt.
+    const values: number[] = [];
+    let current = 1;
+
+    for (const cycle of cycles) {
+        values.push(current);
+        if (cycle.type === 'add') {
+            current += cycle.value;
+        }
+    }
+
+    const sumOfSignalStrengths = [20, 60, 100, 140, 180, 220]
+        .map((value, index) => {
+            return values[value - 1]! * (value - 1);
+        })
+        .reduce((acc, value) => acc + value, 0);
+
+    console.log('The sum of the signal strengths is', sumOfSignalStrengths);
 };

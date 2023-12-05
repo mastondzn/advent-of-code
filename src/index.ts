@@ -52,10 +52,7 @@ const main = async () => {
     const preSolutionTime = performance.now();
 
     try {
-        const maybePromise = exports.solution(input);
-        if (maybePromise instanceof Promise) {
-            await maybePromise;
-        }
+        await exports.solution(input);
     } catch (error) {
         console.log(`Error running solution for year ${year}, day ${day}:`);
         console.error(error);

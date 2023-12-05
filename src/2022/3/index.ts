@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2022/day/3
 // https://adventofcode.com/2022/day/3/input
 export const solution = (file: string): void => {
-    // eslint-disable-next-line unicorn/consistent-function-scoping
     const getPriority = (letter: string) => {
         const priority = `_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ`.indexOf(letter);
         if (priority === -1 || letter === '_') {
@@ -16,7 +14,6 @@ export const solution = (file: string): void => {
     let partOneSum = 0;
     let partTwoSum = 0;
 
-    // eslint-disable-next-line unicorn/no-for-loop
     for (let i = 0; i < rucksacks.length; i++) {
         // part one
         const numberOfItemsInRucksack = rucksacks[i]!.length;

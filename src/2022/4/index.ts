@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 // https://adventofcode.com/2022/day/4
 // https://adventofcode.com/2022/day/4/input
 export const solution = (file: string): void => {
